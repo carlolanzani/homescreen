@@ -13,7 +13,7 @@ const Screen = (props) => {
             @apply col pt-safe pb-safe px-4 h-full flex-1 overflow-y-auto;
           }
           header {
-            @apply pt-safe px-2 row aic;
+            @apply pt-safe px-2 row aic text-sm;
             & > button {
               @apply min-w-0 flex-1;
               &:first-child {
@@ -23,9 +23,15 @@ const Screen = (props) => {
                 @apply jcfe;
               }
             }
+            & > h1 {
+              @apply flex-auto text-center font-semibold text-neutral-100;
+            }
           }
           footer {
-            @apply pb-safe px-2 row aic jcc;
+            @apply pb-safe px-2 row aic;
+            & > button {
+              @apply min-w-0 flex-1 aic jcc;
+            }
           }
           &:has(header) main {
             @apply pt-4;
@@ -50,8 +56,7 @@ const Header = (props) => {
       </button>
       <h1>Screen Title</h1>
       <button class="row aic">
-        <span>Add</span>
-        <Icon id="chevron-forward" size="8" fill="white" />
+        <Icon id="plus" size="8" fill="white" />
       </button>
     </header>
   );
@@ -97,28 +102,27 @@ const App = () => {
         <Header />
         <main class="bg-neutral-900 col gap-4">
           <img
-            class="rounded-2xl"
+            class="rounded-2xl aspect-square w-full bg-neutral-800 shadow-xl"
             src="https://source.unsplash.com/random/800x800"
           />
-          <h2 class="text-4xl font-bold">
+          <h2 class="mt-2 text-4xl font-bold">
             Lorem ipsum dolor sit amet, consectetur
           </h2>
           <h3 class="text-normal font-semibold">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident,
             sequi?
           </h3>
-          <p class="font-light">
+          <p class="font-light text-lg">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere
             quasi quidem mollitia porro vero deserunt expedita. Beatae a eum et
             aspernatur ipsa vel perferendis possimus illum blanditiis natus
-            earum velit officia veritatis repudiandae ab obcaecati fuga alias
-            inventore voluptatem, sunt qui ipsam sapiente?
+            earum velit officia veritatis repudiandae.
           </p>
-          <p class="font-light">
+          <p class="font-extralight">
             Autem laboriosam magnam placeat qui maiores in dolor porro,
             temporibus alias consequuntur voluptatibus ad! ipsa!
           </p>
-          <p class="font-light">
+          <p class="font-extralight">
             Libero iusto tempore minima exercitationem cum modi esse, iure, a
             dolorem facilis molestiae tempora alias magnam, blanditiis
             voluptatum corporis. Inventore culpa quae exercitationem fugiat et
