@@ -1,8 +1,9 @@
 import { defineConfig, injectGlobal, install } from "@twind/core";
 import presetTailwind from "@twind/preset-tailwind";
+import presetAutoprefix from "@twind/preset-autoprefix";
 
 const config = defineConfig({
-  presets: [presetTailwind()],
+  presets: [presetTailwind(), presetAutoprefix()],
   variants: [["children", "&>*"]],
   ignorelist: [],
   rules: [
@@ -60,7 +61,7 @@ injectGlobal`
 
   html {
     font-size: 16px;
-    color: #fff;
+    @apply bg-neutral-900 text-neutral-100;
   }
 
   *::-webkit-scrollbar {
