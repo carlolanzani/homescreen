@@ -6,6 +6,16 @@ const config = defineConfig({
   presets: [presetTailwind(), presetAutoprefix()],
   variants: [["children", "&>*"]],
   ignorelist: [],
+  theme: {
+    extend: {
+      spacing: {
+        "safe-t": "var(--safe-area-inset-top, env(safe-area-inset-top))",
+        "safe-r": "var(--safe-area-inset-right, env(safe-area-inset-right))",
+        "safe-b": "var(--safe-area-inset-bottom, env(safe-area-inset-bottom))",
+        "safe-l": "var(--safe-area-inset-left, env(safe-area-inset-left))",
+      },
+    },
+  },
   rules: [
     [
       "col",

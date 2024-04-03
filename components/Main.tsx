@@ -1,8 +1,10 @@
+import { css, cx } from "@twind/core";
+
 export const Main = () => {
   return (
     <main class="col gap-4">
       <img
-        class="rounded-2xl aspect-[7/8] w-full bg-neutral-800 shadow-xl object-cover"
+        class="rounded-2xl aspect-[7/8] w-full bg-neutral-800 shadow-xl object-cover fullbleed"
         src="https://source.unsplash.com/random/800x800"
       />
       <h2 class="mt-2 text-4xl font-bold">

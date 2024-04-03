@@ -15,6 +15,7 @@ const App = () => {
         <Footer />
       </Screen>
       <Screen>
+        <Header class="fixed" />
         <Main />
       </Screen>
       <Screen>

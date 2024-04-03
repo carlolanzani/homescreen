@@ -1,8 +1,9 @@
+import { cx } from "@twind/core";
 import { Icon } from "../elements/Icon";
 
-export const Header = () => {
+export const Header = (props: { class?: string }) => {
   return (
-    <header class="w-full jcsb">
+    <header class={cx("w-full jcsb", props.class)}>
       <button class="row aic">
         <Icon id="chevron-backward" size="8" />
         <span>Back</span>
