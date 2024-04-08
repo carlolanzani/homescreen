@@ -1,17 +1,26 @@
 import { cx } from "@twind/core";
-import { Icon } from "../elements/Icon";
+import { Children } from "../types";
 
-export const Header = (props: { class?: string }) => {
+export const Header = (props: {
+  children: Children;
+  class?: string;
+  fixed?: boolean;
+  transparent?: boolean;
+}) => {
   return (
-    <header class={cx("w-full jcsb", props.class)}>
-      <button class="row aic">
-        <Icon id="chevron-backward" size="8" />
-        <span>Back</span>
-      </button>
-      <h1>Screen Title</h1>
-      <button class="row aic">
-        <Icon id="plus" size="8" />
-      </button>
-    </header>
+    <div
+      data-fixed={!!props.fixed}
+      data-transparent={!!props.transparent}
+      class={cx(
+        props.fixed ? "absolute top-0" : "sticky -top-2",
+        "w-full row aic pt-safe pb-2",
+        !props.transparent && "bg-neutral-900/80 backdrop-blur-lg",
+        !props.transparent && "border-b border-white/10",
+        "text-sm text-neutral-200",
+        props.class
+      )}
+    >
+      {props.children}
+    </div>
   );
 };

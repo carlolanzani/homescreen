@@ -1,20 +1,19 @@
-import { Icon } from "../elements/Icon";
+import { cx } from "@twind/core";
+import { Children } from "../types";
 
-export const Footer = () => {
+export const Footer = (props: { children: Children; class?: string }) => {
   return (
-    <footer class="w-full jcsa">
-      <button class="col aic text-white">
-        <Icon id="home" size="8" />
-        <span class="text-xs">Home</span>
-      </button>
-      <button class="col aic">
-        <Icon id="search" size="8" />
-        <span class="text-xs">Search</span>
-      </button>
-      <button class="col aic">
-        <Icon id="person" size="8" />
-        <span class="text-xs">Profile</span>
-      </button>
-    </footer>
+    <div
+      class={cx(
+        "sticky -bottom-2",
+        "row aic pb-safe",
+        "bg-neutral-900/40 backdrop-blur-lg",
+        "border-t border-white/5",
+        "text-neutral-400",
+        props.class
+      )}
+    >
+      {props.children}
+    </div>
   );
 };
