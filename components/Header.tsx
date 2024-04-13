@@ -21,7 +21,7 @@ export const Header = (props: {
       ref={ref}
       class={cx(
         "absolute top-0",
-        "w-full row aic pt-safe pb-2",
+        "w-full row aic pt-safe-t pb-2",
         !props.transparent && "bg-neutral-900/80 backdrop-blur-lg",
         !props.transparent && "border-b border-white/10",
         "text-sm text-neutral-200",

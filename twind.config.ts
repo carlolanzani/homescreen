@@ -34,6 +34,7 @@ const config = defineConfig({
       },
     ],
     ["no-scrollbars", { scrollbarWidth: "none" }],
+    ["overflow-scrolling-touch", { WebkitOverflowScrolling: "touch" }],
     ["aic", { alignItems: "center" }],
     ["aifs", { alignItems: "flex-start" }],
     ["aife", { alignItems: "flex-end" }],
@@ -44,27 +45,6 @@ const config = defineConfig({
     ["jcsa", { justifyContent: "space-around" }],
     ["jcsb", { justifyContent: "space-between" }],
     ["text-balance", { textWrap: "balance" }],
-    [
-      "pt-safe",
-      {
-        paddingTop: "var(--safe-area-inset-top, env(safe-area-inset-top))",
-      },
-    ],
-    [
-      "pb-safe",
-      {
-        paddingBottom:
-          "var(--safe-area-inset-bottom, env(safe-area-inset-bottom))",
-      },
-    ],
-    [
-      "px-safe",
-      {
-        paddingLeft: "var(--safe-area-inset-left, env(safe-area-inset-left))",
-        paddingRight:
-          "var(--safe-area-inset-right, env(safe-area-inset-right))",
-      },
-    ],
   ],
 });
 
