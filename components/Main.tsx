@@ -3,7 +3,14 @@ import { Children } from "../types";
 
 export const Main = (props: { children: Children; class?: string }) => {
   return (
-    <div class={cx("flex-1", "col", "text-neutral-100", props.class)}>
+    <div
+      class={cx(
+        "flex-none w-full h-screen overflow-y-scroll",
+        "col",
+        "text-neutral-100",
+        props.class
+      )}
+    >
       {props.children}
     </div>
   );

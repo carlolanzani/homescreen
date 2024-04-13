@@ -26,8 +26,8 @@ export const One = () => {
           </Right>
         </Nav>
       </Header>
-      <Main>
-        <img class="-mt-header rounded-b-3xl" src="/images/image.jpeg" />
+      <Main class="pb-footer">
+        <img class="rounded-b-3xl" src="/images/image.jpeg" />
         <article class="col p-4 gap-3">
           <h2 class="mt-2 text-4xl font-bold">
             Lorem ipsum dolor sit amet, consectetur
