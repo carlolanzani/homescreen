@@ -1,5 +1,6 @@
 import { cx } from "@twind/core";
 import { Children } from "../types";
+import { useRef, useEffect } from "preact/hooks";
 
 export const Footer = (props: {
   children: Children;
@@ -7,13 +8,21 @@ export const Footer = (props: {
   fixed?: boolean;
   transparent?: boolean;
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const height = ref.current?.getBoundingClientRect().height;
+    const root = document.querySelector(":root") as HTMLElement;
+    root.style.setProperty("--footer-height", `${height}px`);
+  });
+
   return (
     <div
-      data-transparent={!!props.transparent}
+      ref={ref}
       class={cx(
-        props.fixed ? "fixed bottom-0" : "sticky -bottom-2",
+        "sticky bottom-0",
         "w-full col aic pb-safe",
-        !props.transparent && "bg-neutral-900/40 backdrop-blur-lg",
+        !props.transparent && "bg-neutral-900/50 backdrop-blur-lg",
         !props.transparent && "border-t border-white/5",
         "text-neutral-400",
         props.class

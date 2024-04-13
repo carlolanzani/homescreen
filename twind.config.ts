@@ -13,6 +13,8 @@ const config = defineConfig({
         "safe-r": "var(--safe-area-inset-right, env(safe-area-inset-right))",
         "safe-b": "var(--safe-area-inset-bottom, env(safe-area-inset-bottom))",
         "safe-l": "var(--safe-area-inset-left, env(safe-area-inset-left))",
+        header: "var(--header-height)",
+        footer: "var(--footer-height)",
       },
     },
   },
@@ -69,12 +71,17 @@ const config = defineConfig({
 install(config);
 injectGlobal`
 
-  html {
+  html,
+  body {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
     font-size: 16px;
     @apply bg-neutral-900 text-neutral-100;
+    overflow: hidden;
   }
 
-  *::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     display: none;
   }
 `;

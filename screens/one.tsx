@@ -8,7 +8,7 @@ import { Footer } from "../components/Footer";
 export const One = () => {
   return (
     <Screen>
-      <Header fixed transparent>
+      <Header transparent>
         <Nav pill>
           <Left>
             <button class="row aic text-blue-500">
@@ -26,8 +26,8 @@ export const One = () => {
           </Right>
         </Nav>
       </Header>
-      <Main class="gap-6">
-        <img class="rounded-b-3xl" src="/images/image.jpeg" />
+      <Main>
+        <img class="-mt-header rounded-b-3xl" src="/images/image.jpeg" />
         <article class="col p-4 gap-3">
           <h2 class="mt-2 text-4xl font-bold">
             Lorem ipsum dolor sit amet, consectetur
@@ -57,10 +57,9 @@ export const One = () => {
             reprehenderit numquam aliquam magnam nihil corporis odio?
           </p>
         </article>
-        <img class="rounded-b-3xl aspect-[19/6]" src="/images/image.jpeg" />
       </Main>
-      <Footer fixed transparent>
-        <Nav pill>
+      <Footer>
+        <Nav class="pb-0 pt-3">
           <Center>
             <button class="col aic text-white">
               <Icon id="home" size="8" />
