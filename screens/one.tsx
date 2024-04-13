@@ -31,7 +31,7 @@ export const One = () => {
         <OverscrollScale>
           <img class="rounded-b-3xl" src="/images/image.jpeg" />
         </OverscrollScale>
-        <article class="col p-4 gap-3">
+        <article class="col p-6 gap-3">
           <h2 class="mt-2 text-4xl font-bold">
             Lorem ipsum dolor sit amet, consectetur
           </h2>

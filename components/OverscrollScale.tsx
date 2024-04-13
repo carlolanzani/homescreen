@@ -26,7 +26,7 @@ export const OverscrollScale = (props: { children: Children }) => {
   }, []);
 
   return (
-    <div ref={ref} class="z-10">
+    <div ref={ref} class="relative z-10">
       {props.children}
     </div>
   );
