@@ -1,13 +1,23 @@
 import { css, cx } from "@twind/core";
 import { Children } from "../types";
 
+export const Left = (props: { children?: Children; class?: string }) => {
+  return <div class={cx("row jcfs", props.class)}>{props.children}</div>;
+};
+export const Center = (props: { children?: Children; class?: string }) => {
+  return <div class={cx("row jcsa", props.class)}>{props.children}</div>;
+};
+export const Right = (props: { children?: Children; class?: string }) => {
+  return <div class={cx("row jcfe", props.class)}>{props.children}</div>;
+};
+
 const childOfType = (
   node: Children | undefined,
-  type: "Left" | "Center" | "Right"
+  type: typeof Left | typeof Center | typeof Right
 ) => {
   return Array.isArray(node)
-    ? node?.find((x) => typeof x.type !== "string" && x.type?.name === type)
-    : typeof node?.type !== "string" && node?.type?.name === type
+    ? node?.find((x) => x.type === type)
+    : node?.type === type
     ? node
     : undefined;
 };
@@ -17,9 +27,9 @@ export const Nav = (props: {
   class?: string;
   pill?: boolean;
 }) => {
-  const left = childOfType(props.children, "Left");
-  const center = childOfType(props.children, "Center");
-  const right = childOfType(props.children, "Right");
+  const left = childOfType(props.children, Left);
+  const center = childOfType(props.children, Center);
+  const right = childOfType(props.children, Right);
   return (
     <nav
       class={cx(
@@ -39,14 +49,4 @@ export const Nav = (props: {
       {right ?? <Right />}
     </nav>
   );
-};
-
-export const Left = (props: { children?: Children; class?: string }) => {
-  return <div class={cx("row jcfs", props.class)}>{props.children}</div>;
-};
-export const Center = (props: { children?: Children; class?: string }) => {
-  return <div class={cx("row jcsa", props.class)}>{props.children}</div>;
-};
-export const Right = (props: { children?: Children; class?: string }) => {
-  return <div class={cx("row jcfe", props.class)}>{props.children}</div>;
 };

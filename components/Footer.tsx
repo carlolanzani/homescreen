@@ -11,7 +11,7 @@ export const Footer = (props: {
     <div
       data-transparent={!!props.transparent}
       class={cx(
-        props.fixed ? "absolute bottom-0" : "sticky -bottom-2",
+        props.fixed ? "fixed bottom-0" : "sticky -bottom-2",
         "w-full col aic pb-safe",
         !props.transparent && "bg-neutral-900/40 backdrop-blur-lg",
         !props.transparent && "border-t border-white/5",

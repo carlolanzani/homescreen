@@ -12,7 +12,7 @@ export const Header = (props: {
       data-fixed={!!props.fixed}
       data-transparent={!!props.transparent}
       class={cx(
-        props.fixed ? "absolute top-0" : "sticky -top-2",
+        props.fixed ? "fixed top-0" : "sticky -top-2",
         "w-full row aic pt-safe pb-2",
         !props.transparent && "bg-neutral-900/80 backdrop-blur-lg",
         !props.transparent && "border-b border-white/10",
