@@ -4,6 +4,7 @@ import { Center, Left, Nav, Right } from "../components/Nav";
 import { Header } from "../components/Header";
 import { Main } from "../components/Main";
 import { Footer } from "../components/Footer";
+import { OverscrollScale } from "../components/OverscrollScale";
 
 export const One = () => {
   return (
@@ -27,7 +28,9 @@ export const One = () => {
         </Nav>
       </Header>
       <Main class="pb-footer">
-        <img class="rounded-b-3xl" src="/images/image.jpeg" />
+        <OverscrollScale>
+          <img class="rounded-b-3xl" src="/images/image.jpeg" />
+        </OverscrollScale>
         <article class="col p-4 gap-3">
           <h2 class="mt-2 text-4xl font-bold">
             Lorem ipsum dolor sit amet, consectetur

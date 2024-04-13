@@ -20,7 +20,7 @@ export const Header = (props: {
     <div
       ref={ref}
       class={cx(
-        "absolute top-0",
+        "absolute top-0 z-20",
         "w-full row aic pt-safe-t pb-2",
         !props.transparent && "bg-neutral-900/80 backdrop-blur-lg",
         !props.transparent && "border-b border-white/10",
