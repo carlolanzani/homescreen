@@ -1,14 +1,10 @@
-import { Screen } from "./components/Screen";
-import { One } from "./screens/one";
 import "/twind.config";
 import { render } from "preact";
 
-// import { One } from "./screens/one";
+import { Home } from "./screens/Home";
 
 const App = () => {
-  // return null;
-  // return <Screen>hello</Screen>;
-  return <One />;
+  return <Home />;
 };
 
 render(<App />, document.body);

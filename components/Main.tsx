@@ -5,7 +5,7 @@ export const Main = (props: { children: Children; class?: string }) => {
   return (
     <div
       class={cx(
-        "w-full h-screen overflow-y-scroll overflow-x-clip",
+        "relative w-full h-screen overflow-y-scroll overflow-x-clip",
         "col",
         "text-neutral-100",
         props.class
