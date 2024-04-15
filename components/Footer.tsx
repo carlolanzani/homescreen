@@ -1,6 +1,6 @@
 import { cx } from "@twind/core";
 import { Children } from "../types";
-import { useRef, useEffect } from "preact/hooks";
+import { useRef, useLayoutEffect } from "preact/hooks";
 
 export const Footer = (props: {
   children: Children;
@@ -10,14 +10,19 @@ export const Footer = (props: {
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const height = ref.current?.getBoundingClientRect().height;
-    const root = document.querySelector(":root") as HTMLElement;
-    root.style.setProperty("--footer-height", `${height}px`);
-  });
+  useLayoutEffect(() => {
+    const update = () => {
+      const height = ref.current?.clientHeight;
+      const root = ref.current?.parentElement as HTMLElement;
+      root.style.setProperty("--footer-height", `${height}px`);
+    };
+    const observer = new ResizeObserver(update);
+    observer.observe(ref.current!);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div
+    <footer
       ref={ref}
       class={cx(
         "absolute bottom-0",
@@ -29,6 +34,6 @@ export const Footer = (props: {
       )}
     >
       {props.children}
-    </div>
+    </footer>
   );
 };

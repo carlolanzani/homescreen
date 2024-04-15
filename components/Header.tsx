@@ -1,6 +1,6 @@
 import { cx } from "@twind/core";
 import { Children } from "../types";
-import { useEffect, useRef } from "preact/hooks";
+import { useLayoutEffect, useRef } from "preact/hooks";
 
 export const Header = (props: {
   children: Children;
@@ -10,14 +10,19 @@ export const Header = (props: {
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const height = ref.current?.getBoundingClientRect().height;
-    const root = document.querySelector(":root") as HTMLElement;
-    root.style.setProperty("--header-height", `${height}px`);
-  });
+  useLayoutEffect(() => {
+    const update = () => {
+      const height = ref.current?.clientHeight;
+      const root = ref.current?.parentElement as HTMLElement;
+      root.style.setProperty("--header-height", `${height}px`);
+    };
+    const observer = new ResizeObserver(update);
+    observer.observe(ref.current!);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div
+    <header
       ref={ref}
       class={cx(
         "absolute top-0 z-20",
@@ -29,6 +34,6 @@ export const Header = (props: {
       )}
     >
       {props.children}
-    </div>
+    </header>
   );
 };
