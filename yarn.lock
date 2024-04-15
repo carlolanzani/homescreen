@@ -484,6 +484,18 @@
     node-html-parser "^6.1.10"
     resolve "^1.22.8"
 
+"@preact/signals-core@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@preact/signals-core/-/signals-core-1.6.0.tgz#f3e47b7cddab60e61a087c9b422a28f52e58ce20"
+  integrity sha512-O/XGxwP85h1F7+ouqTMOIZ3+V1whfaV9ToIVcuyGriD4JkSD00cQo54BKdqjvBJxbenvp7ynfqRHEwI6e+NIhw==
+
+"@preact/signals@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@preact/signals/-/signals-1.2.3.tgz#df186e6a9b786b7d1bf8405fdcc926393b5ff98f"
+  integrity sha512-M2DXse3Wi8HwjI1d2vQWOLJ3lHogvqTsJYvl4ofXRXgMFQzJ7kmlZvlt5i8x5S5VwgZu0ghru4HkLqOoFfU2JQ==
+  dependencies:
+    "@preact/signals-core" "^1.6.0"
+
 "@prefresh/babel-plugin@0.5.1":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@prefresh/babel-plugin/-/babel-plugin-0.5.1.tgz#3161bbbf12dd39a5fe08514349898fa6a20525b7"
@@ -718,6 +730,11 @@ debug@^4.1.0, debug@^4.3.1, debug@^4.3.4:
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
   dependencies:
     ms "2.1.2"
+
+deepsignal@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/deepsignal/-/deepsignal-1.5.0.tgz#05a9706ebebcc294b1aa285e1fa5bc920cfe14d2"
+  integrity sha512-bFywDpBUUWMs576H2dgLFLLFuQ/UWXbzHfKD98MZTfGsl7+twIzvz4ihCNrRrZ/Emz3kqJaNIAp5eBWUEWhnAw==
 
 delayed-stream@~1.0.0:
   version "1.0.0"

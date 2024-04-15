@@ -6,7 +6,7 @@ import { Main } from "../components/Main";
 import { Footer } from "../components/Footer";
 import { OverscrollScale } from "../components/OverscrollScale";
 
-export const One = () => {
+export default () => {
   return (
     <Screen>
       <Header transparent>
@@ -18,7 +18,7 @@ export const One = () => {
             </button>
           </Left>
           <Center>
-            <h1 class="text-lg">Screen Title</h1>
+            <h1 class="text-lg">Settings</h1>
           </Center>
           <Right>
             <button class="row aic text-blue-500">
@@ -29,7 +29,10 @@ export const One = () => {
       </Header>
       <Main class="pb-footer">
         <OverscrollScale>
-          <img class="rounded-b-3xl" src="/images/image.jpeg" />
+          <img
+            class="rounded-b-3xl aspect-[5/7] w-full object-cover"
+            src="/images/image.jpeg"
+          />
         </OverscrollScale>
         <article class="col p-6 gap-3">
           <h2 class="mt-2 text-4xl font-bold">
