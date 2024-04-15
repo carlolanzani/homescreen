@@ -1064,6 +1064,11 @@ update-browserslist-db@^1.0.13:
     escalade "^3.1.1"
     picocolors "^1.0.0"
 
+use-web-animation@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/use-web-animation/-/use-web-animation-0.3.2.tgz#919cf2cf6da98829e1d73434e829111c23a5fc4c"
+  integrity sha512-FUAKy7Oj3ueeVXYY3QQ/hGPs3Gvh+8DNkWii+GWBDMDGrjM2mbK1A66CRcKA5rpj0yy2WgRCYzeW2DR7JKTj7Q==
+
 vite-plugin-mkcert@^1.17.3:
   version "1.17.4"
   resolved "https://registry.yarnpkg.com/vite-plugin-mkcert/-/vite-plugin-mkcert-1.17.4.tgz#80c2f11cdfeb157c306b687239f70602717d1d5c"

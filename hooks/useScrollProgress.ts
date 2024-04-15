@@ -1,8 +1,8 @@
-import { useRef, useState, useEffect } from "preact/hooks";
+import { useRef, useState, useEffect, MutableRef } from "preact/hooks";
 
 export const useScrollProgress = () => {
   // Ref for the scrollable element
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   // State for progress
   const [progress, setProgress] = useState({
     percent: 0,
@@ -13,7 +13,7 @@ export const useScrollProgress = () => {
   });
   // Subscribe to events that trigger update of state
   useEffect(() => {
-    const el = ref.current as HTMLElement;
+    const el = ref.current;
     if (el) {
       const update = () => {
         const progress = el.scrollLeft / (el.scrollWidth - el.clientWidth);
