@@ -1,6 +1,8 @@
 import { deepSignal } from "deepsignal";
 import { JSX } from "preact/jsx-runtime";
 
+import Calculator from "./screens/calculator";
+
 // Takes an object and returns an array of objects with the key as the id
 const idk = (o: Record<string, any>) =>
   Object.entries(o).map(([id, v]) => ({
@@ -37,8 +39,13 @@ type State = {
 };
 
 export const state = deepSignal<State>({
-  view: "home",
-  runningApps: {},
+  view: "app",
+  runningApps: {
+    calculator: {
+      Component: Calculator,
+      order: 0,
+    },
+  },
   get runningAppsArray(): State["runningAppsArray"] {
     return idk(state.runningApps);
   },
