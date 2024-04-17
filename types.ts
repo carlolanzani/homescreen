@@ -1,3 +1,3 @@
-import { VNode } from "preact";
+import { Component, ComponentChildren, JSX, VNode } from "preact";
 
-export type Children = VNode | VNode[];
+export type Children = ComponentChildren | ComponentChildren[];
