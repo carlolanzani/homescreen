@@ -3,83 +3,73 @@ import { useEffect } from "preact/hooks";
 
 export default () => {
   useEffect(() => {
-    const _C = document.querySelector(".lol"),
-      N = _C.children.length,
-      NF = 12;
+    const $ = document.querySelector(".lol") as HTMLElement;
+    const N = $.children.length;
+    const NF = 12;
 
     const TFN = {
-      linear: function (k) {
-        return k;
-      },
-      "ease-in": function (k, e = 1.675) {
-        return Math.pow(k, e);
-      },
-      "ease-out": function (k, e = 1.618) {
+      "ease-out": (k: number, e = 1.618) => {
         return 1 - Math.pow(1 - k, e);
-      },
-      "ease-in-out": function (k) {
-        return 0.5 * (Math.sin((k - 0.5) * Math.PI) + 1);
       },
     };
 
-    let i = 0,
-      x0 = null,
-      locked = false,
-      w,
-      ini,
-      fin,
-      rID = null,
-      anf;
-    let progress = 0;
-    let v = new Velocity();
+    let i = parseInt($.style.getPropertyValue("--i")) || 0;
+    let x0: number = 0;
+    let locked = false;
+    let rID: number | null = null;
+    let w = window.innerWidth;
+    let ini: number;
+    let fin: number;
+    let anf: number | undefined;
+    let progress: number = 0;
+
+    // @ts-ignore
+    let v = Velocity();
 
     function stopAni() {
-      cancelAnimationFrame(rID);
+      rID && cancelAnimationFrame(rID);
       rID = null;
     }
 
     function ani(cf = 0) {
       progress = ini + (fin - ini) * TFN["ease-out"](cf / NF);
-      _C.style.setProperty("--i", progress);
+      $.style.setProperty("--i", "" + progress);
       if (cf === NF) {
         stopAni();
         return;
       }
+      // @ts-ignore
       rID = requestAnimationFrame(ani.bind(this, ++cf));
     }
 
-    function unify(e) {
+    function unify(e: any): MouseEvent {
       return e.changedTouches ? e.changedTouches[0] : e;
     }
 
-    function lock(e) {
+    function lock(e: MouseEvent | TouchEvent) {
       stopAni();
-      v = new Velocity();
       x0 = unify(e).clientX;
       locked = true;
     }
 
-    function drag(e) {
+    function drag(e: MouseEvent | TouchEvent) {
       e.preventDefault();
       if (locked) {
-        let dx = unify(e).clientX - x0,
-          f = +(dx / w);
+        const dx = unify(e).clientX - x0;
+        const f = +(dx / w);
         v.updatePosition(unify(e).clientX);
         const next = (progress || i) - f;
-        console.log(next);
-        _C.style.setProperty("--i", next);
+        $.style.setProperty("--i", "" + next);
       }
     }
 
-    function move(e) {
+    function move(e: MouseEvent | TouchEvent) {
       if (locked) {
         let dx = unify(e).clientX - x0,
           s = Math.sign(dx),
           f = +((s * dx) / w);
 
         ini = (progress || i) - s * f;
-
-        console.log({ ini: ini - f });
 
         if (
           (i > 0 || s < 0) &&
@@ -93,33 +83,24 @@ export default () => {
         fin = i;
         anf = Math.round(f * NF);
         ani();
-        x0 = null;
+        x0 = 0;
         locked = false;
       }
     }
 
-    function size() {
-      w = window.innerWidth;
-    }
+    $.addEventListener("mousedown", lock, false);
+    $.addEventListener("touchstart", lock, false);
 
-    size();
-    _C.style.setProperty("--n", N);
+    $.addEventListener("mousemove", drag, false);
+    $.addEventListener("touchmove", drag, false);
 
-    addEventListener("resize", size, false);
-
-    _C.addEventListener("mousedown", lock, false);
-    _C.addEventListener("touchstart", lock, false);
-
-    _C.addEventListener("mousemove", drag, false);
-    _C.addEventListener("touchmove", drag, false);
-
-    _C.addEventListener("mouseup", move, false);
-    _C.addEventListener("touchend", move, false);
+    $.addEventListener("mouseup", move, false);
+    $.addEventListener("touchend", move, false);
   }, []);
 
   return (
     <div
-      style="var(--n, 1)"
+      style="--i: 4; --n: 5;"
       class={cx(
         "lol",
         css`
@@ -138,8 +119,6 @@ export default () => {
             justify-content: center;
             height: 100%;
             width: 100vw;
-            user-select: none;
-            pointer-events: none;
             color: white;
             font-family: sans-serif;
             font-size: 50vmin;
@@ -171,37 +150,42 @@ export default () => {
   );
 };
 
-function Velocity() {
-  this.positionQueue = [];
-  this.timeQueue = [];
-}
+const Velocity = () => {
+  const positionQueue: number[] = [];
+  const timeQueue: number[] = [];
 
-Velocity.prototype.reset = function () {
-  this.positionQueue.splice(0);
-  this.timeQueue.splice(0);
-};
+  const reset = () => {
+    positionQueue.splice(0);
+    timeQueue.splice(0);
+  };
 
-Velocity.prototype.pruneQueue = function (ms) {
-  //pull old values off of the queue
-  while (this.timeQueue.length && this.timeQueue[0] < Date.now() - ms) {
-    this.timeQueue.shift();
-    this.positionQueue.shift();
-  }
-};
+  const pruneQueue = (ms: number) => {
+    while (timeQueue.length && timeQueue[0] < Date.now() - ms) {
+      timeQueue.shift();
+      positionQueue.shift();
+    }
+  };
 
-Velocity.prototype.updatePosition = function (position) {
-  this.positionQueue.push(position);
-  this.timeQueue.push(Date.now());
-  this.pruneQueue(50);
-};
+  const updatePosition = (position: number) => {
+    positionQueue.push(position);
+    timeQueue.push(Date.now());
+    pruneQueue(50);
+  };
 
-Velocity.prototype.getVelocity = function () {
-  this.pruneQueue(1000);
-  var length = this.timeQueue.length;
-  if (length < 2) return 0;
+  const getVelocity = () => {
+    pruneQueue(1000);
+    const length = timeQueue.length;
+    if (length < 2) return 0;
 
-  var distance = this.positionQueue[length - 1] - this.positionQueue[0],
-    time = (this.timeQueue[length - 1] - this.timeQueue[0]) / 1000;
+    const distance = positionQueue[length - 1] - positionQueue[0];
+    const time = (timeQueue[length - 1] - timeQueue[0]) / 1000;
 
-  return distance / time;
+    return distance / time;
+  };
+
+  return {
+    reset,
+    updatePosition,
+    getVelocity,
+  };
 };
