@@ -43,6 +43,10 @@ export const state = deepSignal<State>({
     return idk(state.runningApps);
   },
   installedApps: {
+    playground: {
+      name: "Playground",
+      icon: "Icon=Settings.png",
+    },
     settings: {
       name: "Settings",
       icon: "Icon=Settings.png",
