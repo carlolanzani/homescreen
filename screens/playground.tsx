@@ -1,14 +1,15 @@
 import { cx, css } from "@twind/core";
-import { useEffect } from "preact/hooks";
+import { useEffect, useRef } from "preact/hooks";
 
 export default () => {
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const $ = document.querySelector(".lol") as HTMLElement;
+    const $ = ref.current as HTMLDivElement;
     const N = $.children.length;
     const NF = 12;
 
     const TFN = {
-      "ease-out": (k: number, e = 1.618) => {
+      "ease-out": (k: number, e = 1.675) => {
         return 1 - Math.pow(1 - k, e);
       },
     };
@@ -100,9 +101,9 @@ export default () => {
 
   return (
     <div
+      ref={ref}
       style="--i: 4; --n: 5;"
       class={cx(
-        "lol",
         css`
           display: flex;
           align-items: center;
