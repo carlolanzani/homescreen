@@ -123,6 +123,15 @@ export default () => {
       }
     }
 
+    Array.from($.children).forEach((el, i) => {
+      if (el.hasAttribute("data-fixed")) {
+        // @ts-ignore
+        el.style = `z-index: 0; transform: translateX(calc(calc(-100% + calc(clamp(0, calc(var(--i, 0) - ${
+          i - 1
+        }), 2) * 100%))`;
+      }
+    });
+
     $.addEventListener("mousedown", touchStart, false);
     $.addEventListener("touchstart", touchStart, false);
 
@@ -147,8 +156,10 @@ export default () => {
             height: 100vh;
             max-height: 100vh;
             transform: translate(calc(var(--i, 0) / var(--n) * -100%));
+            will-change: transform;
 
             & .screen {
+              will-change: transform;
               position: relative;
               z-index: 99;
               flex: none;
@@ -180,14 +191,13 @@ export default () => {
         )}
       >
         <div class="screen">0</div>
-        <div
-          class="screen"
-          style={`position: relative; z-index: 0; transform: translateX(calc(calc(-100% + calc(min(2, var(--i, 0)) * 100%))`}
-        >
+        <div class="screen" data-fixed>
           <VerticalScroll />
         </div>
         <div class="screen">2</div>
-        <div class="screen">3</div>
+        <div class="screen" data-fixed>
+          3
+        </div>
         <div class="screen">4</div>
       </div>
       <div id="output_log" class="fixed top-16 left-16"></div>
