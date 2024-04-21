@@ -15,17 +15,16 @@ export default () => {
     };
 
     let i = parseInt($.style.getPropertyValue("--i")) || 0;
-    let x0: number = 0;
-    let xY: number = 0;
+    let touchStartX: number = 0;
+    let touchStartY: number = 0;
+    let dragDistance: number = 0;
     let locked = false;
     let rID: number | null = null;
     let w = window.innerWidth;
     let ini: number;
     let fin: number;
-    let anf: number | undefined;
     let progress: number = 0;
     let isDragging = false;
-    let totalDistance = 0;
     let scroller = document.querySelector(
       "[data-scrolling]"
     ) as HTMLElement | null;
@@ -34,47 +33,47 @@ export default () => {
     let v = Velocity();
     let yV = Velocity();
 
-    function stopAni() {
+    function stopAnimation() {
       rID && cancelAnimationFrame(rID);
       rID = null;
     }
 
-    function ani(cf = 0) {
+    function animate(cf = 0) {
       progress = ini + (fin - ini) * TFN["ease-out"](cf / NF);
       $.style.setProperty("--i", "" + progress);
       if (cf === NF) {
-        stopAni();
+        stopAnimation();
         return;
       }
       // @ts-ignore
-      rID = requestAnimationFrame(ani.bind(this, ++cf));
+      rID = requestAnimationFrame(animate.bind(this, ++cf));
     }
 
-    function unify(e: any): MouseEvent {
+    function cursor(e: any): MouseEvent {
       return e.changedTouches ? e.changedTouches[0] : e;
     }
 
-    function lock(e: MouseEvent | TouchEvent) {
+    function touchStart(e: MouseEvent | TouchEvent) {
       if (rID) isDragging = true;
-      stopAni();
-      x0 = unify(e).clientX;
-      xY = unify(e).clientY;
+      stopAnimation();
+      touchStartX = cursor(e).clientX;
+      touchStartY = cursor(e).clientY;
       v.reset();
       yV.reset();
       locked = true;
-      totalDistance = 0;
+      dragDistance = 0;
       scroller = document.querySelector("[data-scrolling]");
     }
 
-    function drag(e: MouseEvent | TouchEvent) {
-      const dx = unify(e).clientX - x0;
-      const dy = unify(e).clientY - xY;
+    function touchMove(e: MouseEvent | TouchEvent) {
+      const dx = cursor(e).clientX - touchStartX;
+      const dy = cursor(e).clientY - touchStartY;
       const f = +(dx / w);
-      v.updatePosition(unify(e).clientX);
-      yV.updatePosition(unify(e).clientY);
-      totalDistance += Math.abs(dx) + Math.abs(dy);
+      v.updatePosition(cursor(e).clientX);
+      yV.updatePosition(cursor(e).clientY);
+      dragDistance += Math.abs(dx) + Math.abs(dy);
       if (
-        (totalDistance < 300 &&
+        (dragDistance < 300 &&
           Math.abs(yV.getVelocity()) < 1000 &&
           Math.abs(v.getVelocity()) > 300 &&
           Math.abs(90 - Math.abs((Math.atan2(dx, dy) * 180) / Math.PI)) < 25) ||
@@ -83,13 +82,18 @@ export default () => {
         scroller && (scroller.style.overflowY = "hidden");
         isDragging = true;
         const next = (progress || i) - f;
-        $.style.setProperty("--i", "" + next);
+        const isAtStart = next < 0;
+        const isAtEnd = next > N - 1;
+        $.style.setProperty(
+          "--i",
+          "" + (isAtStart ? 0 : isAtEnd ? N - 1 : next)
+        );
       }
     }
 
-    function move(e: MouseEvent | TouchEvent) {
-      const dx = unify(e).clientX - x0;
-      const dy = unify(e).clientY - xY;
+    function touchEnd(e: MouseEvent | TouchEvent) {
+      const dx = cursor(e).clientX - touchStartX;
+      const dy = cursor(e).clientY - touchStartY;
       if (locked && isDragging) {
         const s = Math.sign(dx);
         let f = +((s * dx) / w);
@@ -110,24 +114,23 @@ export default () => {
         }
 
         fin = i;
-        anf = Math.round(f * NF);
-        ani();
-        x0 = 0;
-        xY = 0;
+        ini > 0 && ini < N - 1 && animate();
+        touchStartX = 0;
+        touchStartY = 0;
         locked = false;
         isDragging = false;
         scroller && (scroller.style.overflowY = "scroll");
       }
     }
 
-    $.addEventListener("mousedown", lock, false);
-    $.addEventListener("touchstart", lock, false);
+    $.addEventListener("mousedown", touchStart, false);
+    $.addEventListener("touchstart", touchStart, false);
 
-    $.addEventListener("mousemove", drag, false);
-    $.addEventListener("touchmove", drag, false);
+    $.addEventListener("mousemove", touchMove, false);
+    $.addEventListener("touchmove", touchMove, false);
 
-    $.addEventListener("mouseup", move, false);
-    $.addEventListener("touchend", move, false);
+    $.addEventListener("mouseup", touchEnd, false);
+    $.addEventListener("touchend", touchEnd, false);
   }, []);
 
   return (
@@ -150,7 +153,8 @@ export default () => {
               z-index: 99;
               flex: none;
               display: flex;
-
+              justify-content: center;
+              align-items: center;
               height: 100%;
               width: 100vw;
               color: white;
@@ -205,7 +209,10 @@ const VerticalScroll = () => {
   // }, []);
 
   return (
-    <p class="overflow-y-scroll pt-safe-t p-4 pb-safe-b" data-scrolling="false">
+    <p
+      class="h-full overflow-y-scroll pt-safe-t p-4 pb-safe-b"
+      data-scrolling="false"
+    >
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime adipisci
       sapiente culpa doloremque rerum voluptates laboriosam asperiores error
       aliquam? Consequatur reiciendis quam aliquam totam eaque qui suscipit
