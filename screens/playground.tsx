@@ -126,9 +126,13 @@ export default () => {
     Array.from($.children).forEach((el, i) => {
       if (el.hasAttribute("data-fixed")) {
         // @ts-ignore
-        el.style = `z-index: 0; transform: translateX(calc(calc(-100% + calc(clamp(0, calc(var(--i, 0) - ${
-          i - 1
-        }), 2) * 100%))`;
+        const stick = el.getAttribute("data-fixed") || "both";
+        // @ts-ignore
+        el.style = `z-index: 0; transform: translateX(calc(calc(-100% + calc(clamp(${
+          ["both", "right"].includes(stick) ? "0" : "1"
+        }, calc(var(--i, 0) - ${i - 1}), ${
+          ["both", "left"].includes(stick) ? "2" : "1"
+        }) * 100%))`;
       }
     });
 
@@ -191,11 +195,11 @@ export default () => {
         )}
       >
         <div class="screen">0</div>
-        <div class="screen" data-fixed>
+        <div class="screen" data-fixed="both">
           <VerticalScroll />
         </div>
         <div class="screen">2</div>
-        <div class="screen" data-fixed>
+        <div class="screen" data-fixed="left">
           3
         </div>
         <div class="screen">4</div>
