@@ -17,21 +17,21 @@ export default () => {
     let i = parseInt($.style.getPropertyValue("--i")) || 0;
     let touchStartX: number = 0;
     let touchStartY: number = 0;
-    let dragDistance: number = 0;
-    let locked = false;
+    let swipeDistance: number = 0;
+    let touched = false;
+    let tracking = false;
     let rID: number | null = null;
     let w = window.innerWidth;
     let ini: number;
     let fin: number;
     let progress: number = 0;
-    let isDragging = false;
     let scroller = document.querySelector(
       "[data-scrolling]"
     ) as HTMLElement | null;
 
     // @ts-ignore
-    let v = Velocity();
-    let yV = Velocity();
+    let vx = Velocity();
+    let vy = Velocity();
 
     function stopAnimation() {
       rID && cancelAnimationFrame(rID);
@@ -54,33 +54,39 @@ export default () => {
     }
 
     function touchStart(e: MouseEvent | TouchEvent) {
-      if (rID) isDragging = true;
+      if (rID) tracking = true;
       stopAnimation();
       touchStartX = cursor(e).clientX;
       touchStartY = cursor(e).clientY;
-      v.reset();
-      yV.reset();
-      locked = true;
-      dragDistance = 0;
+      vx.reset();
+      vy.reset();
+      touched = true;
+      swipeDistance = 0;
       scroller = document.querySelector("[data-scrolling]");
     }
+
+    const leftOrRightSwipe = (dx: number, dy: number, vx: any, vy: any) => {
+      return (
+        Math.abs(vy.getVelocity()) < 1000 &&
+        Math.abs(vx.getVelocity()) > 300 &&
+        Math.abs(90 - Math.abs((Math.atan2(dx, dy) * 180) / Math.PI)) < 25
+      );
+    };
 
     function touchMove(e: MouseEvent | TouchEvent) {
       const dx = cursor(e).clientX - touchStartX;
       const dy = cursor(e).clientY - touchStartY;
       const f = +(dx / w);
-      v.updatePosition(cursor(e).clientX);
-      yV.updatePosition(cursor(e).clientY);
-      dragDistance += Math.abs(dx) + Math.abs(dy);
+      vx.updatePosition(cursor(e).clientX);
+      vy.updatePosition(cursor(e).clientY);
+      swipeDistance += Math.abs(dx) + Math.abs(dy);
+
       if (
-        (dragDistance < 300 &&
-          Math.abs(yV.getVelocity()) < 1000 &&
-          Math.abs(v.getVelocity()) > 300 &&
-          Math.abs(90 - Math.abs((Math.atan2(dx, dy) * 180) / Math.PI)) < 25) ||
-        isDragging
+        (swipeDistance < 300 && leftOrRightSwipe(dx, dy, vx, vy)) ||
+        tracking
       ) {
         scroller && (scroller.style.overflowY = "hidden");
-        isDragging = true;
+        tracking = true;
         const next = (progress || i) - f;
         const isAtStart = next < 0;
         const isAtEnd = next > N - 1;
@@ -94,7 +100,7 @@ export default () => {
     function touchEnd(e: MouseEvent | TouchEvent) {
       const dx = cursor(e).clientX - touchStartX;
       const dy = cursor(e).clientY - touchStartY;
-      if (locked && isDragging) {
+      if (touched && tracking) {
         const s = Math.sign(dx);
         let f = +((s * dx) / w);
 
@@ -103,11 +109,7 @@ export default () => {
         if (
           (i > 0 || s < 0) &&
           (i < N - 1 || s > 0) &&
-          (f > 0.5 ||
-            (Math.abs(yV.getVelocity()) < 1000 &&
-              Math.abs(v.getVelocity()) > 300 &&
-              Math.abs(90 - Math.abs((Math.atan2(dx, dy) * 180) / Math.PI)) <
-                25))
+          (f > 0.5 || leftOrRightSwipe(dx, dy, vx, vy))
         ) {
           i -= s;
           f = 1 - f;
@@ -117,8 +119,8 @@ export default () => {
         ini > 0 && ini < N - 1 && animate();
         touchStartX = 0;
         touchStartY = 0;
-        locked = false;
-        isDragging = false;
+        touched = false;
+        tracking = false;
         scroller && (scroller.style.overflowY = "scroll");
       }
     }
