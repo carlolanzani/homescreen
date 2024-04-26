@@ -1,12 +1,49 @@
 import { cx, css } from "@twind/core";
 import { useEffect, useRef } from "preact/hooks";
+import { Children } from "../types";
+import { Footer } from "../components/Footer";
+import { Center, Nav } from "../components/Nav";
+import { Screen } from "../components/Screen";
 
 export default () => {
+  return (
+    <Screen>
+      <Footer transparent class="!pb-4">
+        <Nav>
+          <Center class="gap-6 bg-black/20 py-3.5 px-4 rounded-3xl"></Center>
+        </Nav>
+      </Footer>
+      <ScreenScroller>
+        <div class="screen bg-red-500">0</div>
+        <div class="screen" data-fixed="right">
+          1
+        </div>
+        <div class="screen">2</div>
+        <div class="screen" data-fixed="left">
+          3
+        </div>
+        <div class="screen bg-teal-500">4</div>
+      </ScreenScroller>
+      <div id="output_log" class="fixed top-16 left-16"></div>
+    </Screen>
+  );
+};
+
+const log = (msg: string) => {
+  const el = document.getElementById("output_log");
+  if (el) {
+    el.innerText = msg;
+  }
+};
+
+const ScreenScroller = (props: { children: Children }) => {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const $ = ref.current as HTMLDivElement;
     const N = $.children.length;
     const NF = 12;
+
+    // const isTopmostScroller = !$.parentElement.closest("[data-scroller]");
 
     const TFN = {
       "ease-out": (k: number, e = 1.618) => {
@@ -25,9 +62,6 @@ export default () => {
     let ini: number;
     let fin: number;
     let progress: number = 0;
-    let scroller = document.querySelector(
-      "[data-scrolling]"
-    ) as HTMLElement | null;
 
     // @ts-ignore
     let vx = Velocity();
@@ -62,7 +96,6 @@ export default () => {
       vy.reset();
       touched = true;
       swipeDistance = 0;
-      scroller = document.querySelector("[data-scrolling]");
     }
 
     const leftOrRightSwipe = (dx: number, dy: number, vx: any, vy: any) => {
@@ -81,12 +114,35 @@ export default () => {
       vy.updatePosition(cursor(e).clientY);
       swipeDistance += Math.abs(dx) + Math.abs(dy);
 
+      // const next = (progress || i) - f;
+      // const isAtStart = next < 0;
+      // const isAtEnd = next > N - 1;
+
+      // if (!isTopmostScroller && !isAtEnd && !isAtStart) {
+      //   // log("child is preventing default");
+      //   e.preventDefault();
+      // } else if (isTopmostScroller) {
+      //   swipeDistance = 0;
+      //   // tracking = true;
+      //   // console.log("child is NOT preventing default");
+      // }
+
       if (
-        (swipeDistance < 300 && leftOrRightSwipe(dx, dy, vx, vy)) ||
+        (touched && swipeDistance < 300 && leftOrRightSwipe(dx, dy, vx, vy)) ||
         tracking
       ) {
-        scroller && (scroller.style.overflowY = "hidden");
         tracking = true;
+
+        $.querySelectorAll("[data-scrolling]").forEach((el) => {
+          el.style.overflowY = "hidden";
+        });
+
+        // if (isTopmostScroller && e.defaultPrevented) {
+        //   tracking = false;
+        //   $.style.setProperty("--i", "" + i);
+        //   return;
+        // }
+
         const next = (progress || i) - f;
         const isAtStart = next < 0;
         const isAtEnd = next > N - 1;
@@ -116,13 +172,19 @@ export default () => {
         }
 
         fin = i;
-        ini > 0 && ini < N - 1 && animate();
+        if (ini > 0 && ini < N - 1) {
+          animate();
+        } else {
+          $.style.setProperty("--i", "" + fin);
+        }
         touchStartX = 0;
         touchStartY = 0;
         touched = false;
         tracking = false;
-        scroller && (scroller.style.overflowY = "scroll");
       }
+      $.querySelectorAll("[data-scrolling]").forEach((el) => {
+        el.style.overflowY = "scroll";
+      });
     }
 
     Array.from($.children).forEach((el, i) => {
@@ -152,9 +214,14 @@ export default () => {
     <>
       <div
         ref={ref}
+        data-scroller="true"
         style="--i: 1; --n: 5;"
         class={cx(
           css`
+            flex: none;
+            position: absolute;
+            top: 0;
+            left: 0;
             display: flex;
             align-items: center;
             overflow-y: hidden;
@@ -165,48 +232,25 @@ export default () => {
             will-change: transform;
 
             & .screen {
+              flex: none;
+              overflow: hidden;
               will-change: transform;
               position: relative;
               z-index: 99;
-              flex: none;
               display: flex;
               justify-content: center;
               align-items: center;
-              height: 100%;
+              height: 100vh;
               width: 100vw;
               color: white;
               font-family: sans-serif;
-              font-size: 5vmin;
-              &:nth-child(1) {
-                background: cyan;
-              }
-              &:nth-child(2) {
-                background: green;
-              }
-              &:nth-child(3) {
-                background: blue;
-              }
-              &:nth-child(4) {
-                background: purple;
-              }
-              &:nth-child(5) {
-                background: pink;
-              }
+              font-size: 50vw;
             }
           `
         )}
       >
-        <div class="screen">0</div>
-        <div class="screen" data-fixed="both">
-          <VerticalScroll />
-        </div>
-        <div class="screen">2</div>
-        <div class="screen" data-fixed="left">
-          3
-        </div>
-        <div class="screen">4</div>
+        {props.children}
       </div>
-      <div id="output_log" class="fixed top-16 left-16"></div>
     </>
   );
 };
@@ -226,7 +270,7 @@ const VerticalScroll = () => {
 
   return (
     <p
-      class="h-full overflow-y-scroll pt-safe-t p-4 pb-safe-b"
+      class="w-screen h-screen overflow-y-scroll pt-safe-t p-4 pb-safe-b text-lg"
       data-scrolling="false"
     >
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime adipisci
