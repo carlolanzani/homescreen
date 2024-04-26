@@ -2,14 +2,15 @@ import { cx, css } from "@twind/core";
 import { useRef, useEffect } from "preact/hooks";
 import { Children } from "../types";
 
-export const ScreenScroller = (props: { children: Children }) => {
+export const useScreenScroller = (onProgress?: (progress: number) => void) => {
   const ref = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const $ = ref.current as HTMLDivElement;
     const N = $.children.length;
     const NF = 12;
     const TFN = {
-      "ease-out": (k: number, e = 1.618) => {
+      "ease-out": (k: number, e = 1.38) => {
         return 1 - Math.pow(1 - k, e);
       },
     };
@@ -30,6 +31,11 @@ export const ScreenScroller = (props: { children: Children }) => {
     let vx = Velocity();
     let vy = Velocity();
 
+    const updateProgress = (progress: number) => {
+      onProgress?.(progress);
+      $.style.setProperty("--i", "" + progress);
+    };
+
     function stopAnimation() {
       rID && cancelAnimationFrame(rID);
       rID = null;
@@ -37,7 +43,7 @@ export const ScreenScroller = (props: { children: Children }) => {
 
     function animate(cf = 0) {
       progress = ini + (fin - ini) * TFN["ease-out"](cf / NF);
-      $.style.setProperty("--i", "" + progress);
+      updateProgress(progress);
       if (cf === NF) {
         stopAnimation();
         return;
@@ -90,10 +96,8 @@ export const ScreenScroller = (props: { children: Children }) => {
         const next = (progress || i) - f;
         const isAtStart = next < 0;
         const isAtEnd = next > N - 1;
-        $.style.setProperty(
-          "--i",
-          "" + (isAtStart ? 0 : isAtEnd ? N - 1 : next)
-        );
+
+        updateProgress(isAtStart ? 0 : isAtEnd ? N - 1 : next);
       }
     }
 
@@ -120,7 +124,7 @@ export const ScreenScroller = (props: { children: Children }) => {
         if (ini > 0 && ini < N - 1) {
           animate();
         } else {
-          $.style.setProperty("--i", "" + fin);
+          updateProgress(fin);
         }
         touchStartX = 0;
         touchStartY = 0;
@@ -157,6 +161,15 @@ export const ScreenScroller = (props: { children: Children }) => {
     $.addEventListener("touchend", touchEnd, false);
   }, []);
 
+  return { ref };
+};
+
+export const ScreenScroller = (props: {
+  children: Children;
+  class?: string;
+  onProgress?: (progress: number) => void;
+}) => {
+  const { ref } = useScreenScroller(props.onProgress);
   return (
     <div
       ref={ref}
@@ -172,6 +185,7 @@ export const ScreenScroller = (props: { children: Children }) => {
           transform: translate(calc(var(--i, 0) / var(--n) * -100%));
           will-change: transform;
           & > * {
+            will-change: transform;
             flex: none;
             overflow: hidden;
             position: relative;
@@ -183,10 +197,12 @@ export const ScreenScroller = (props: { children: Children }) => {
               height: 100%;
               place-items: center;
               font-family: sans-serif;
+              color: white;
               font-size: 50vw;
             }
           }
-        `
+        `,
+        props.class
       )}
     >
       {props.children}

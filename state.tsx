@@ -38,7 +38,7 @@ type State = {
 };
 
 export const state = deepSignal<State>({
-  view: "app",
+  view: "home",
   runningApps: {
     playground: {
       Component: playground,
