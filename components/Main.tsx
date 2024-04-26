@@ -1,7 +1,12 @@
 import { cx } from "@twind/core";
 import { Children } from "../types";
+import { CSSProperties } from "preact/compat";
 
-export const Main = (props: { children: Children; class?: string }) => {
+export const Main = (props: {
+  children: Children;
+  class?: string;
+  style?: CSSProperties;
+}) => {
   return (
     <div
       class={cx(
@@ -10,6 +15,7 @@ export const Main = (props: { children: Children; class?: string }) => {
         "text-neutral-100",
         props.class
       )}
+      style={props.style}
     >
       {props.children}
     </div>

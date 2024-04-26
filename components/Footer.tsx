@@ -1,12 +1,14 @@
 import { cx } from "@twind/core";
 import { Children } from "../types";
 import { useRef, useLayoutEffect } from "preact/hooks";
+import { CSSProperties } from "preact/compat";
 
 export const Footer = (props: {
   children: Children;
   class?: string;
   fixed?: boolean;
   transparent?: boolean;
+  style?: CSSProperties;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -32,6 +34,7 @@ export const Footer = (props: {
         "text-neutral-400",
         props.class
       )}
+      style={props.style}
     >
       {props.children}
     </footer>
