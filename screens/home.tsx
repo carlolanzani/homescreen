@@ -19,34 +19,24 @@ export default () => {
         <div class="absolute inset-0 w-full h-full backdrop-blur-lg" />
       </div>
       <ScreenScroller
-        onProgress={(x) => {
-          progress.value = x;
-        }}
-        class={cx(
-          "relative z-40",
-          css`
-            &::after {
-              content: "";
-              @apply absolute inset-0 w-full h-full backdrop-blur-[calc(calc(1 - var(--i)) * 32px)] pointer-events-none;
-            }
-            &::before {
-              content: "";
-              @apply z-10 absolute inset-0 w-full h-full backdrop-blur-[calc(calc(var(--i) - 2) * 32px)] pointer-events-none;
-            }
-          `
-        )}
+        onProgress={(x) => (progress.value = x)}
+        class={css`
+          @apply relative z-20;
+          &::before {
+            @apply backdrop-blur-[calc(calc(1 - var(--i)) * 32px)];
+          }
+          &::after {
+            @apply backdrop-blur-[calc(calc(var(--i) - 2) * 32px)];
+          }
+        `}
       >
         <Screen class="bg-transparent z-30"></Screen>
         <Screen class="bg-transparent" data-fixed="right">
           <Main
-            class="pt-safe-t pb-footer"
+            class="pt-safe-t"
             style={{
               transformOrigin: "center",
-              transform: `scale(${getTween(
-                0.9,
-                1,
-                Math.min(progress, 1) * 100
-              )})`,
+              transform: scale(0.9, 1, progress),
             }}
           >
             <div class="w-full flex-none grid grid-cols-4 grid-rows-6 p-6 gap-x-6 gap-y-3">
@@ -58,14 +48,10 @@ export default () => {
         </Screen>
         <Screen class="bg-transparent" data-fixed="left">
           <Main
-            class="pt-safe-t pb-footer"
+            class="pt-safe-t"
             style={{
               transformOrigin: "center",
-              transform: `scale(${getTween(
-                1,
-                0.9,
-                Math.max(0, Math.min(progress - 2, 1)) * 100
-              )})`,
+              transform: scale(1, 0.9, progress - 2),
             }}
           >
             <div class="w-full flex-none grid grid-cols-4 grid-rows-6 p-6 gap-x-6 gap-y-3">
@@ -79,18 +65,13 @@ export default () => {
       </ScreenScroller>
       <Footer
         transparent
-        class="!pb-4"
         style={{
           zIndex: progress < 1 || progress > 2 ? 0 : 30,
           transformOrigin: "top",
           transform:
             progress < 1
-              ? `scale(${getTween(0.85, 1, Math.min(progress, 1) * 100)})`
-              : `scale(${getTween(
-                  1,
-                  0.9,
-                  Math.max(0, Math.min(progress - 2, 1)) * 100
-                )})`,
+              ? scale(0.9, 1, progress)
+              : scale(1, 0.9, progress - 2),
         }}
       >
         <Nav>
@@ -112,6 +93,10 @@ const rand = (min: number, max: number) => {
 
 const getTween = (b, e, i) => {
   return b + (i / 99) * (e - b);
+};
+
+const scale = (a, b, c) => {
+  return `scale(${getTween(a, b, Math.max(0, Math.min(c, 1)) * 100)})`;
 };
 
 const AppIcon = (props: {

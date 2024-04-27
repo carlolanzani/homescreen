@@ -184,6 +184,13 @@ export const ScreenScroller = (props: {
           overflow: hidden;
           transform: translate(calc(var(--i, 0) / var(--n) * -100%));
           will-change: transform;
+
+          &::before,
+          &::after {
+            content: "";
+            @apply z-10 absolute inset-0 w-full h-full pointer-events-none;
+          }
+
           & > * {
             will-change: transform;
             flex: none;
