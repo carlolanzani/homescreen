@@ -74,6 +74,15 @@ export default () => {
               : scale(1, 0.9, progress - 2),
         }}
       >
+        <div class="mb-1 self-center row gap-2 py-2.5 px-4 rounded-full bg-black/20 children:(w-2 h-2 rounded-full)">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <div
+              class={`w-2 h-2 rounded-full ${
+                i + 1 === Math.round(progress) ? "bg-white" : "bg-white/50"
+              }`}
+            />
+          ))}
+        </div>
         <Nav>
           <Center class="gap-6 bg-black/20 py-3.5 px-4 rounded-3xl">
             <AppIcon id="mail" icon="Icon=Mail.png" i={1} />
