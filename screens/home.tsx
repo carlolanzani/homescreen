@@ -10,7 +10,10 @@ import { css, cx } from "@twind/core";
 
 export default () => {
   const list = state.$installedAppsArray!.value;
-  let split = useMemo(() => rand(5, (list ?? []).length - 2), []);
+  let lists = useMemo(() => {
+    const split = rand(5, (list ?? []).length - 2);
+    return [list.slice(0, split), list.slice(split)];
+  }, []);
   const progress = useSignal(1);
   return (
     <Screen>
@@ -31,36 +34,9 @@ export default () => {
         `}
       >
         <Screen class="bg-transparent z-30"></Screen>
-        <Screen class="bg-transparent" data-fixed="right">
-          <Main
-            class="pt-safe-t"
-            style={{
-              transformOrigin: "center",
-              transform: scale(0.9, 1, progress),
-            }}
-          >
-            <div class="w-full flex-none grid grid-cols-4 grid-rows-6 p-6 gap-x-6 gap-y-3">
-              {list.slice(0, split).map((app, i) => (
-                <AppIcon {...app} i={i} />
-              ))}
-            </div>
-          </Main>
-        </Screen>
-        <Screen class="bg-transparent" data-fixed="left">
-          <Main
-            class="pt-safe-t"
-            style={{
-              transformOrigin: "center",
-              transform: scale(1, 0.9, progress - 2),
-            }}
-          >
-            <div class="w-full flex-none grid grid-cols-4 grid-rows-6 p-6 gap-x-6 gap-y-3">
-              {list.slice(split).map((app, i) => (
-                <AppIcon {...app} i={i} />
-              ))}
-            </div>
-          </Main>
-        </Screen>
+        {lists.map((apps, i) => (
+          <AppGrid list={apps} progress={progress} i={i} />
+        ))}
         <Screen class="bg-transparent z-30"></Screen>
       </ScreenScroller>
       <Footer
@@ -106,6 +82,37 @@ const getTween = (b, e, i) => {
 
 const scale = (a, b, c) => {
   return `scale(${getTween(a, b, Math.max(0, Math.min(c, 1)) * 100)})`;
+};
+
+const AppGrid = (props: { list: any[]; progress: number; i: number }) => {
+  const first = props.i === 0;
+  const last = props.i === 1;
+  const progress = props.progress;
+  return (
+    <Screen
+      class="bg-transparent"
+      data-fixed={
+        (first || last) && first && last ? "both" : first ? "right" : "left"
+      }
+    >
+      <Main
+        class="pt-safe-t"
+        style={{
+          transformOrigin: "center",
+          transform:
+            progress < 1
+              ? scale(0.9, 1, progress)
+              : scale(1, 0.9, progress - 2),
+        }}
+      >
+        <div class="w-full flex-none grid grid-cols-4 grid-rows-6 p-6 gap-x-6 gap-y-3">
+          {props.list.map((app, i) => (
+            <AppIcon {...app} i={i} />
+          ))}
+        </div>
+      </Main>
+    </Screen>
+  );
 };
 
 const AppIcon = (props: {
