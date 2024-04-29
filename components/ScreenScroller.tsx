@@ -89,7 +89,7 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
       ) {
         tracking = true;
 
-        $.querySelectorAll("[data-scrolling]").forEach((el) => {
+        $.querySelectorAll(".overflow-y-scroll").forEach((el) => {
           (el as HTMLElement).style.overflowY = "hidden";
         });
 
@@ -132,7 +132,7 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
         tracking = false;
       }
 
-      $.querySelectorAll("[data-scrolling]").forEach((el) => {
+      $.querySelectorAll(".overflow-y-scroll").forEach((el) => {
         (el as HTMLElement).style.overflowY = "scroll";
       });
     }
@@ -174,7 +174,7 @@ export const ScreenScroller = (props: {
     <div
       ref={ref}
       data-scroller="true"
-      style="--i: 1; --n: 5;"
+      style="--i: 4; --n: 5;"
       class={cx(
         css`
           flex: none;

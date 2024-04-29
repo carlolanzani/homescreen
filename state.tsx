@@ -40,19 +40,19 @@ type State = {
 export const state = deepSignal<State>({
   view: "home",
   runningApps: {
-    playground: {
-      Component: playground,
-      order: 1,
-    },
+    // playground: {
+    //   Component: playground,
+    //   order: 1,
+    // },
   },
   get runningAppsArray(): State["runningAppsArray"] {
     return idk(state.runningApps);
   },
   installedApps: {
-    playground: {
-      name: "Playground",
-      icon: "Icon=Settings.png",
-    },
+    // playground: {
+    //   name: "Playground",
+    //   icon: "Icon=Settings.png",
+    // },
     settings: {
       name: "Settings",
       icon: "Icon=Settings.png",

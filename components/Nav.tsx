@@ -1,11 +1,20 @@
 import { css, cx } from "@twind/core";
 import { Children } from "../types";
+import { CSSProperties } from "preact/compat";
 
 export const Left = (props: { children?: Children; class?: string }) => {
   return <div class={cx("row jcfs", props.class)}>{props.children}</div>;
 };
-export const Center = (props: { children?: Children; class?: string }) => {
-  return <div class={cx("row jcsa", props.class)}>{props.children}</div>;
+export const Center = (props: {
+  children?: Children;
+  class?: string;
+  style?: string | CSSProperties;
+}) => {
+  return (
+    <div class={cx("row jcsa", props.class)} style={props?.style}>
+      {props.children}
+    </div>
+  );
 };
 export const Right = (props: { children?: Children; class?: string }) => {
   return <div class={cx("row jcfe", props.class)}>{props.children}</div>;

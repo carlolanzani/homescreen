@@ -7,13 +7,15 @@ import { state } from "../state";
 import { ScreenScroller } from "../components/ScreenScroller";
 import { useSignal } from "@preact/signals";
 import { css, cx } from "@twind/core";
+import { Header } from "../components/Header";
+import { Icon } from "../elements/Icon";
 
 export default () => {
   const list = state.$installedAppsArray!.value;
   let lists = useMemo(() => {
     return [list.slice(0, 14), list.slice(14, 21), list.slice(21)];
   }, []);
-  const progress = useSignal(1);
+  const progress = useSignal(5);
   return (
     <Screen>
       <div class="absolute inset-0 w-full h-full">
@@ -34,7 +36,7 @@ export default () => {
       >
         <Screen class="bg-transparent z-30"></Screen>
         {lists.map(AppGrid(progress))}
-        <Screen class="bg-transparent z-30"></Screen>
+        <AppLibrary />
       </ScreenScroller>
       <Footer
         transparent
@@ -75,6 +77,85 @@ const getTween = (b, e, i) => {
 
 const scale = (a, b, c) => {
   return `scale(${getTween(a, b, Math.max(0, Math.min(c, 1)) * 100)})`;
+};
+
+const AppLibrary = () => {
+  return (
+    <Screen class="bg-transparent z-30">
+      <Header transparent>
+        <Nav class="mt-4">
+          <Center
+            style={`--blur-size: 16px; --blur-strength: 3px;`}
+            class={cx(
+              "px-4 text-(white/30 xl)",
+              css`
+                &::before {
+                  content: "";
+                  position: absolute;
+                  z-index: -1;
+                  inset: calc(var(--blur-size, 100px) * -1);
+                  backdrop-filter: blur(var(--blur-strength, 10px));
+                  mask: linear-gradient(
+                      to top,
+                      transparent 0%,
+                      red var(--blur-size) calc(100% - var(--blur-size)),
+                      transparent 100%
+                    ),
+                    linear-gradient(
+                      to left,
+                      transparent 0%,
+                      red var(--blur-size) calc(100% - var(--blur-size)),
+                      transparent 100%
+                    );
+                  mask-composite: intersect;
+                }
+              `
+            )}
+          >
+            <div class="w-full row aic jcc bg-black/30 backdrop-blur-lg rounded-2xl px-2 py-1 gap-1.5">
+              <Icon id="search" size="8" />
+              <input
+                type="search"
+                placeholder="App Library"
+                class="w-[9.5ch] min-w-0 h-10 placeholder-white/30 bg-transparent font-medium"
+              />
+            </div>
+          </Center>
+        </Nav>
+      </Header>
+      <Main class="pt-header">
+        <div class="w-full flex-none grid grid-cols-2 grid-rows-auto pt-3 p-6 gap-x-4 gap-y-3">
+          {state
+            .$installedAppsArray!.value.reduce((all, one, i) => {
+              const ch = Math.floor(i / 3);
+              all[ch] = [].concat(all[ch] || [], one);
+              return all;
+            }, [])
+            .map((group, i, groups) => {
+              return (
+                <div class="col aic gap-1 text-xs">
+                  <div class="grid grid-cols-2 grid-rows-2 px-2.5 py-3 gap-x-1.5 gap-y-2 bg-black/30 rounded-3xl">
+                    {group.map((app, i) => {
+                      const { name, ...rest } = app;
+                      return <AppIcon {...rest} i={i} />;
+                    })}
+                    <div class="grid grid-cols-2 grid-rows-2 p-0.5 gap-x-1 gap-y-1">
+                      {groups[i + 1 > groups.length - 1 ? 0 : i + 1]
+                        .reverse()
+                        .map((app, i) => {
+                          const { name, ...rest } = app;
+                          return <AppIcon {...rest} i={i} />;
+                        })}
+                    </div>
+                  </div>
+                  <span>Group Name</span>
+                </div>
+              );
+            })}
+        </div>
+      </Main>
+    </Screen>
+  );
 };
 
 const AppGrid = (progress) => (apps, i, lists) => {
