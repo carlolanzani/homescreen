@@ -11,8 +11,7 @@ import { css, cx } from "@twind/core";
 export default () => {
   const list = state.$installedAppsArray!.value;
   let lists = useMemo(() => {
-    const split = rand(5, (list ?? []).length - 2);
-    return [list.slice(0, split), list.slice(split)];
+    return [list.slice(0, 14), list.slice(14, 21), list.slice(21)];
   }, []);
   const progress = useSignal(1);
   return (
@@ -29,29 +28,27 @@ export default () => {
             @apply backdrop-blur-[calc(calc(1 - var(--i)) * 32px)];
           }
           &::after {
-            @apply backdrop-blur-[calc(calc(var(--i) - 2) * 32px)];
+            @apply backdrop-blur-[calc(calc(var(--i) - ${lists.length}) * 32px)];
           }
         `}
       >
         <Screen class="bg-transparent z-30"></Screen>
-        {lists.map((apps, i) => (
-          <AppGrid list={apps} progress={progress} i={i} />
-        ))}
+        {lists.map(AppGrid(progress))}
         <Screen class="bg-transparent z-30"></Screen>
       </ScreenScroller>
       <Footer
         transparent
         style={{
-          zIndex: progress < 1 || progress > 2 ? 0 : 30,
+          zIndex: progress < 1 || progress > lists.length ? 0 : 30,
           transformOrigin: "top",
           transform:
             progress < 1
               ? scale(0.9, 1, progress)
-              : scale(1, 0.9, progress - 2),
+              : scale(1, 0.9, progress - lists.length),
         }}
       >
         <div class="mb-1 self-center row gap-2 py-2.5 px-4 rounded-full bg-black/20 children:(w-2 h-2 rounded-full)">
-          {Array.from({ length: 2 }).map((_, i) => (
+          {Array.from({ length: lists.length }).map((_, i) => (
             <div
               class={`w-2 h-2 rounded-full ${
                 i + 1 === Math.round(progress) ? "bg-white" : "bg-white/50"
@@ -72,10 +69,6 @@ export default () => {
   );
 };
 
-const rand = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
-
 const getTween = (b, e, i) => {
   return b + (i / 99) * (e - b);
 };
@@ -84,29 +77,19 @@ const scale = (a, b, c) => {
   return `scale(${getTween(a, b, Math.max(0, Math.min(c, 1)) * 100)})`;
 };
 
-const AppGrid = (props: { list: any[]; progress: number; i: number }) => {
-  const first = props.i === 0;
-  const last = props.i === 1;
-  const progress = props.progress;
+const AppGrid = (progress) => (apps, i, lists) => {
+  const first = i === 0 && "right";
+  const last = i === lists.length - 1 && "left";
+  const both = first && last && "both";
+  const transform =
+    progress < 1
+      ? scale(0.9, 1, progress)
+      : scale(1, 0.9, progress - lists.length);
   return (
-    <Screen
-      class="bg-transparent"
-      data-fixed={
-        (first || last) && first && last ? "both" : first ? "right" : "left"
-      }
-    >
-      <Main
-        class="pt-safe-t"
-        style={{
-          transformOrigin: "center",
-          transform:
-            progress < 1
-              ? scale(0.9, 1, progress)
-              : scale(1, 0.9, progress - 2),
-        }}
-      >
+    <Screen class="bg-transparent" data-fixed={both || first || last}>
+      <Main class="pt-safe-t" style={{ transformOrigin: "center", transform }}>
         <div class="w-full flex-none grid grid-cols-4 grid-rows-6 p-6 gap-x-6 gap-y-3">
-          {props.list.map((app, i) => (
+          {apps.map((app, i) => (
             <AppIcon {...app} i={i} />
           ))}
         </div>
