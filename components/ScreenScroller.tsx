@@ -10,7 +10,7 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
     const N = $.children.length;
     const NF = 12;
     const TFN = {
-      "ease-out": (k: number, e = 1.38) => {
+      "ease-out": (k: number, e = 1.618) => {
         return 1 - Math.pow(1 - k, e);
       },
     };
@@ -26,6 +26,7 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
     let ini: number;
     let fin: number;
     let progress: number = 0;
+    let scrollers: NodeListOf<Element>;
 
     // @ts-ignore
     let vx = Velocity();
@@ -61,18 +62,15 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
       stopAnimation();
       touchStartX = cursor(e).clientX;
       touchStartY = cursor(e).clientY;
-      vx.reset();
-      vy.reset();
+      vx.updatePosition(cursor(e).clientX);
+      vy.updatePosition(cursor(e).clientY);
       touched = true;
       swipeDistance = 0;
+      scrollers = $.querySelectorAll(".overflow-y-scroll");
     }
 
     const leftOrRightSwipe = (dx: number, dy: number, vx: any, vy: any) => {
-      return (
-        Math.abs(vy.getVelocity()) < 1000 &&
-        Math.abs(vx.getVelocity()) > 300 &&
-        Math.abs(90 - Math.abs((Math.atan2(dx, dy) * 180) / Math.PI)) < 25
-      );
+      return Math.abs(90 - Math.abs((Math.atan2(dx, dy) * 180) / Math.PI)) < 25;
     };
 
     function touchMove(e: MouseEvent | TouchEvent) {
@@ -89,7 +87,7 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
       ) {
         tracking = true;
 
-        $.querySelectorAll(".overflow-y-scroll").forEach((el) => {
+        scrollers.forEach((el) => {
           (el as HTMLElement).style.overflowY = "hidden";
         });
 
@@ -128,17 +126,26 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
         }
         touchStartX = 0;
         touchStartY = 0;
+        vx.reset();
+        vy.reset();
         touched = false;
         tracking = false;
       }
 
-      $.querySelectorAll(".overflow-y-scroll").forEach((el) => {
+      scrollers.forEach((el) => {
         (el as HTMLElement).style.overflowY = "scroll";
       });
+
+      // Array.from($.children).forEach((el, index, items) => {
+      //   const first = index === 0;
+      //   const last = index === items.length - 1;
+      //   Math.abs(index - fin) > 1 && (first || last)
+      //     ? (el.style.display = "none")
+      //     : (el.style.display = "block");
+      // });
     }
 
     Array.from($.children).forEach((el, i) => {
-      el.setAttribute("data-order", i + "");
       if (el.hasAttribute("data-fixed")) {
         // @ts-ignore
         const stick = el.getAttribute("data-fixed") || "both";
@@ -149,6 +156,9 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
           ["both", "left"].includes(stick) ? "2" : "1"
         }) * 100%))`;
       }
+      el.setAttribute("data-order", i + "");
+      el.style.left = (i / N) * 100 + "%";
+      el.style.position = "absolute";
     });
 
     $.addEventListener("mousedown", touchStart, false);
@@ -192,7 +202,6 @@ export const ScreenScroller = (props: {
           }
 
           & > * {
-            will-change: transform;
             flex: none;
             overflow: hidden;
             position: relative;

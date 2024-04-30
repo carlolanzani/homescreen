@@ -52,6 +52,7 @@ install(config);
 injectGlobal`
   html {
     overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
