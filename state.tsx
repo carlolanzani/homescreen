@@ -1,6 +1,7 @@
 import { deepSignal } from "deepsignal";
 import { JSX } from "preact/jsx-runtime";
 import playground from "./screens/playground";
+import camera from "./screens/camera";
 
 // Takes an object and returns an array of objects with the key as the id
 const idk = (o: Record<string, any>) =>
@@ -38,12 +39,12 @@ type State = {
 };
 
 export const state = deepSignal<State>({
-  view: "home",
+  view: "app",
   runningApps: {
-    // playground: {
-    //   Component: playground,
-    //   order: 1,
-    // },
+    camera: {
+      Component: camera,
+      order: 1,
+    },
   },
   get runningAppsArray(): State["runningAppsArray"] {
     return idk(state.runningApps);
