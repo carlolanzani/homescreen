@@ -8,9 +8,9 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
   useEffect(() => {
     const $ = ref.current as HTMLDivElement;
     const N = $.children.length;
-    const NF = 12;
+    const NF = 32;
     const TFN = {
-      "ease-out": (k: number, e = 1.618) => {
+      "ease-out": (k: number, e = 4.8) => {
         return 1 - Math.pow(1 - k, e);
       },
     };
@@ -67,10 +67,19 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
       touched = true;
       swipeDistance = 0;
       scrollers = $.querySelectorAll(".overflow-y-scroll");
+      Array.from($.children).forEach((el, index) => {
+        Math.abs(index - fin) > 1
+          ? (el.style.display = "none")
+          : (el.style.display = "block");
+      });
     }
 
     const leftOrRightSwipe = (dx: number, dy: number, vx: any, vy: any) => {
-      return Math.abs(90 - Math.abs((Math.atan2(dx, dy) * 180) / Math.PI)) < 25;
+      return (
+        Math.abs(vy.getVelocity()) < 1000 &&
+        Math.abs(vx.getVelocity()) > 200 &&
+        Math.abs(90 - Math.abs((Math.atan2(dx, dy) * 180) / Math.PI)) < 25
+      );
     };
 
     function touchMove(e: MouseEvent | TouchEvent) {
@@ -130,19 +139,11 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
         vy.reset();
         touched = false;
         tracking = false;
+
+        scrollers.forEach((el) => {
+          (el as HTMLElement).style.overflowY = "scroll";
+        });
       }
-
-      scrollers.forEach((el) => {
-        (el as HTMLElement).style.overflowY = "scroll";
-      });
-
-      // Array.from($.children).forEach((el, index, items) => {
-      //   const first = index === 0;
-      //   const last = index === items.length - 1;
-      //   Math.abs(index - fin) > 1 && (first || last)
-      //     ? (el.style.display = "none")
-      //     : (el.style.display = "block");
-      // });
     }
 
     Array.from($.children).forEach((el, i) => {
@@ -177,6 +178,7 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
 export const ScreenScroller = (props: {
   children: Children;
   class?: string;
+  startAt: number;
   onProgress?: (progress: number) => void;
 }) => {
   const { ref } = useScreenScroller(props.onProgress);
@@ -184,7 +186,9 @@ export const ScreenScroller = (props: {
     <div
       ref={ref}
       data-scroller="true"
-      style="--i: 4; --n: 5;"
+      style={`--i: ${props.startAt ?? 0}; --n: ${
+        Array.isArray(props.children) ? props.children.flat().length : 0
+      };`}
       class={cx(
         css`
           flex: none;

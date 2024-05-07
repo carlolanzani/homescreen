@@ -15,7 +15,8 @@ export default () => {
   let lists = useMemo(() => {
     return [list.slice(0, 14), list.slice(14, 21), list.slice(21)];
   }, []);
-  const progress = useSignal(5);
+  const startAt = 1;
+  const progress = useSignal(startAt);
   return (
     <Screen>
       <div class="absolute inset-0 w-full h-full">
@@ -23,6 +24,7 @@ export default () => {
         <div class="absolute inset-0 w-full h-full backdrop-blur-lg" />
       </div>
       <ScreenScroller
+        startAt={startAt}
         onProgress={(x) => (progress.value = x)}
         class={css`
           @apply relative z-20;
