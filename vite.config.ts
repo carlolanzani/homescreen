@@ -28,7 +28,7 @@ watcher.on("add", (filePath) => {
 
     const modifiedContent = data
       .replace(/<svg width="28" height="28" /, '<svg id="icon" ')
-      .replace(/fill="#1C1C1E"/, 'fill="currentColor"');
+      .replace(/fill="#1C1C1E"/g, 'fill="currentColor"');
 
     fs.writeFile(filePath, modifiedContent, "utf8", (err: Error) => {
       if (err) {
