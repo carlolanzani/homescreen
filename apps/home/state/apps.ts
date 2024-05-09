@@ -3,7 +3,7 @@ import { JSX } from "preact/jsx-runtime";
 const installed = import.meta.glob("../../*/index.tsx");
 const icons = import.meta.glob("../../*/icon.png", { eager: true });
 
-export type InstalledApp = {
+export type App = {
   id: string;
   name: string;
   icon: string;
@@ -14,7 +14,7 @@ export type InstalledApp = {
   Component?: (props: any) => JSX.Element;
 };
 
-export const InstalledApps = Object.fromEntries(
+export const apps = Object.fromEntries(
   Object.entries(installed)
     .filter(([path]) => path.startsWith("../../"))
     .map(([path, mod]) => {
@@ -24,7 +24,7 @@ export const InstalledApps = Object.fromEntries(
         {
           id,
           name: id,
-          mod: mod as InstalledApp["mod"],
+          mod: mod as App["mod"],
           icon: (icons[`../../${id}/icon.png`] as { default: string })?.default,
           page: Math.random() < 0.5 ? 0 : 1,
           docked: true,

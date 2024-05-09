@@ -1,7 +1,7 @@
 import { useMemo } from "preact/hooks";
 import { Footer } from "../../components/Footer";
 import { Screen } from "../../components/Screen";
-import { state, vals } from "./state";
+import { state } from "./state";
 import { ScreenScroller } from "../../components/ScreenScroller";
 import { useSignal } from "@preact/signals";
 import { css, cx } from "@twind/core";
@@ -11,7 +11,7 @@ import { AppDock } from "./components/AppDock";
 import { PageIndicator } from "./components/PageIndicator";
 
 export default () => {
-  const installedApps = vals(state.$installedApps!.value);
+  const installedApps = state.$installedApps!.value;
   const runningApps = state.$runningApps!.value;
 
   const pages = useMemo(() => {

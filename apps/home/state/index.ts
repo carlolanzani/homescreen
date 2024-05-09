@@ -1,10 +1,11 @@
 import { DeepSignal, RevertDeepSignal, deepSignal } from "deepsignal";
-import { InstalledApp, InstalledApps } from "./InstalledApps";
+import { App, apps } from "./apps";
 
 type State = {
   view: "home" | "app";
-  installedApps: Record<string, InstalledApp>;
-  runningApps: InstalledApp[];
+  apps: Record<string, App>;
+  installedApps: App[];
+  runningApps: App[];
 };
 
 export const vals = <T extends any>(o: DeepSignal<Record<string, T>>) =>
@@ -12,10 +13,11 @@ export const vals = <T extends any>(o: DeepSignal<Record<string, T>>) =>
 
 export const state = deepSignal<State>({
   view: "home",
-  installedApps: InstalledApps,
-  get runningApps(): InstalledApp[] {
-    return vals(
-      state.installedApps as DeepSignal<State["installedApps"]>
-    ).filter((app) => app.order);
+  apps,
+  get installedApps(): App[] {
+    return vals(state.apps);
+  },
+  get runningApps(): App[] {
+    return vals(state.apps).filter((app) => app.order);
   },
 });

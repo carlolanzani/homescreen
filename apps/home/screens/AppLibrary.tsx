@@ -6,7 +6,7 @@ import { Screen } from "../../../components/Screen";
 import { Main } from "../../../components/Main";
 import { Nav, Center } from "../../../components/Nav";
 import { Icon } from "../../../elements/Icon";
-import { state, vals } from "../state";
+import { state } from "../state";
 import { AppIcon } from "../components/AppIcon";
 import { RevertDeepSignal } from "deepsignal";
 
@@ -15,7 +15,7 @@ export const AppLibrary = () => {
   const visualViewportHeight = useSignal(0);
 
   const folders = useMemo(() => {
-    return vals(state.$installedApps!.value).reduce((all, one, i) => {
+    return state.$installedApps!.value.reduce((all, one, i) => {
       const ch = Math.floor(i / 3);
       // @ts-ignore
       all[ch] = [].concat(all[ch] ?? [], one);
@@ -112,7 +112,7 @@ export const AppLibrary = () => {
         >
           <div class="col px-6 pt-2 pb-8">
             <h2 class="text-lg font-semibold">A</h2>
-            {vals(state.$installedApps!.value).map((app) => {
+            {state.$installedApps!.value.map((app) => {
               return (
                 <div class="row aic gap-3.5">
                   <div class="w-14 aspect-square flex-none">
