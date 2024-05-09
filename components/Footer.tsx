@@ -1,5 +1,5 @@
 import { cx } from "@twind/core";
-import { Children } from "../types";
+import { Children } from "..";
 import { useRef, useLayoutEffect } from "preact/hooks";
 import { CSSProperties } from "preact/compat";
 

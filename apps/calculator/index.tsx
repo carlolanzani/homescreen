@@ -1,6 +1,6 @@
-import { Screen } from "../components/Screen";
-import { Main } from "../components/Main";
-import { Icon } from "../elements/Icon";
+import { Screen } from "../../components/Screen";
+import { Main } from "../../components/Main";
+import { Icon } from "../../elements/Icon";
 
 export default () => {
   return (

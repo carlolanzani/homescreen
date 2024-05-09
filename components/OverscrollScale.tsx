@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "preact/hooks";
-import { Children } from "../types";
+import { Children } from "..";
 
 export const OverscrollScale = (props: { children: Children }) => {
   const ref = useRef<HTMLImageElement>(null);

@@ -1,9 +1,9 @@
 import { cx } from "@twind/core";
-import { Children } from "../types";
+import { Children } from "..";
 import { useLayoutEffect, useRef } from "preact/hooks";
 
 export const Header = (props: {
-  children: Children;
+  children?: Children;
   class?: string;
   fixed?: boolean;
   transparent?: boolean;

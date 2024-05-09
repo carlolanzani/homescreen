@@ -1,6 +1,6 @@
 import { cx, css } from "@twind/core";
 import { useRef, useEffect } from "preact/hooks";
-import { Children } from "../types";
+import { Children } from "..";
 
 export const useScreenScroller = (onProgress?: (progress: number) => void) => {
   const ref = useRef<HTMLDivElement>(null);

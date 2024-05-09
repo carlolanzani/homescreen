@@ -1,9 +1,9 @@
-import { Screen } from "../components/Screen";
-import { Main } from "../components/Main";
-import { Icon } from "../elements/Icon";
-import { Header } from "../components/Header";
-import { Center, Left, Nav, Right } from "../components/Nav";
-import { Footer } from "../components/Footer";
+import { Screen } from "../../components/Screen";
+import { Main } from "../../components/Main";
+import { Icon } from "../../elements/Icon";
+import { Header } from "../../components/Header";
+import { Center, Left, Nav, Right } from "../../components/Nav";
+import { Footer } from "../../components/Footer";
 
 export default () => {
   return (

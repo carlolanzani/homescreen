@@ -1,5 +1,5 @@
 import { css, cx } from "@twind/core";
-import { Children } from "../types";
+import { Children } from "..";
 import { CSSProperties } from "preact/compat";
 
 export const Left = (props: { children?: Children; class?: string }) => {

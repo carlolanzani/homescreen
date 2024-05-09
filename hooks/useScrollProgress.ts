@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, MutableRef } from "preact/hooks";
+import { useRef, useState, useEffect } from "preact/hooks";
 
 export const useScrollProgress = () => {
   // Ref for the scrollable element

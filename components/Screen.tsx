@@ -1,5 +1,5 @@
 import { cx } from "@twind/core";
-import { Children } from "../types";
+import { Children } from "..";
 
 export const Screen = (props: { children?: Children; class?: string }) => {
   const { children, ...rest } = props;
