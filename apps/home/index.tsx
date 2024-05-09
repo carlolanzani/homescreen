@@ -11,13 +11,24 @@ import { AppDock } from "./components/AppDock";
 import { PageIndicator } from "./components/PageIndicator";
 
 export default () => {
+  const installedApps = state.$installedAppsArray!.value;
   const runningApps = state.$runningAppsArray!.value;
-  const list = state.$installedAppsArray!.value;
-  let lists = useMemo(() => {
-    return [list.slice(0, 14), list.slice(14, 21), list.slice(21)];
+
+  const pages = useMemo(() => {
+    const numberOfPages = Math.max(...installedApps.map((x) => x.page)) + 1;
+    return Array.from({ length: numberOfPages }, (_, i) => i).reduce(
+      (acc, i) => {
+        const apps = installedApps.filter((x) => x.page === i);
+        acc.push(apps);
+        return acc;
+      },
+      [] as (typeof installedApps)[]
+    );
   }, []);
+
   const startAt = 1;
   const progress = useSignal(startAt);
+
   return (
     <>
       <Screen>
@@ -34,27 +45,27 @@ export default () => {
               @apply backdrop-blur-[calc(calc(1 - var(--i)) * 32px)];
             }
             &::after {
-              @apply backdrop-blur-[calc(calc(var(--i) - ${lists.length}) * 32px)];
+              @apply backdrop-blur-[calc(calc(var(--i) - ${pages.length}) * 32px)];
             }
           `}
         >
           <Screen class="bg-transparent z-30"></Screen>
-          {lists.map(AppGrid(progress))}
+          {pages.map(AppGrid(progress))}
           <AppLibrary />
         </ScreenScroller>
         <Footer
           transparent
           style={{
             zIndex:
-              progress.value < 1 || progress.value > lists.length ? 0 : 30,
+              progress.value < 1 || progress.value > pages.length ? 0 : 30,
             transformOrigin: "top",
             transform:
               progress.value < 1
                 ? scale(0.9, 1, progress.value)
-                : scale(1, 0.9, progress.value - lists.length),
+                : scale(1, 0.9, progress.value - pages.length),
           }}
         >
-          <PageIndicator lists={lists} progress={progress.value} />
+          <PageIndicator lists={pages} progress={progress.value} />
           <AppDock />
         </Footer>
       </Screen>

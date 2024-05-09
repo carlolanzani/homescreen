@@ -29,8 +29,8 @@ export const AppGrid =
           }}
         >
           <div class="w-full flex-none grid grid-cols-4 grid-rows-6 p-6 gap-x-6 gap-y-3">
-            {apps.map((app, i) => (
-              <AppIcon {...app} i={i} />
+            {apps.map((app) => (
+              <AppIcon app={app} />
             ))}
           </div>
         </Main>

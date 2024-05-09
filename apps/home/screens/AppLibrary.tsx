@@ -81,22 +81,17 @@ export const AppLibrary = () => {
                 <div class="grid grid-cols-2 grid-rows-2 px-2.5 py-3 gap-x-2 gap-y-2.5 bg-black/30 rounded-3xl">
                   {
                     // @ts-ignore
-                    group?.map((app, i) => {
-                      const { name, ...rest } = app;
-                      return <AppIcon {...rest} i={i} />;
-                    })
+                    group?.map((app) => (
+                      <AppIcon app={app} hideName />
+                    ))
                   }
                   <div class="grid grid-cols-2 grid-rows-2 p-0.5 gap-x-1 gap-y-1">
                     {
                       // @ts-ignore
                       groups[i + 1 > groups.length - 1 ? 0 : i + 1]?.map(
-                        (
-                          app: (typeof state.installedAppsArray)[0],
-                          i: number
-                        ) => {
-                          const { name, ...rest } = app;
-                          return <AppIcon {...rest} i={i} />;
-                        }
+                        (app: (typeof state.installedAppsArray)[0]) => (
+                          <AppIcon app={app} hideName />
+                        )
                       )
                     }
                   </div>
@@ -117,15 +112,14 @@ export const AppLibrary = () => {
         >
           <div class="col px-6 pt-2 pb-8">
             <h2 class="text-lg font-semibold">A</h2>
-            {state.$installedAppsArray!.value.map((app, i) => {
-              const { name, ...rest } = app;
+            {state.$installedAppsArray!.value.map((app) => {
               return (
                 <div class="row aic gap-3.5">
                   <div class="w-14 aspect-square flex-none">
-                    <AppIcon {...rest} i={i} />
+                    <AppIcon app={app} hideName />
                   </div>
                   <div class="w-full text-lg border-(b white/10) py-6">
-                    {name}
+                    {app.name}
                   </div>
                 </div>
               );
