@@ -1,4 +1,5 @@
-import { useMemo } from "preact/hooks";
+import { JSX } from "preact/jsx-runtime";
+import { useEffect, useMemo, useState } from "preact/hooks";
 import { Footer } from "../../components/Footer";
 import { Screen } from "../../components/Screen";
 import { state } from "./state";
@@ -9,10 +10,12 @@ import { AppGrid } from "./screens/AppGrid";
 import { AppLibrary } from "./screens/AppLibrary";
 import { AppDock } from "./components/AppDock";
 import { PageIndicator } from "./components/PageIndicator";
+import { App } from "./state/apps";
 
 export default () => {
   const installedApps = state.$installedApps!.value;
   const runningApps = state.$runningApps!.value;
+  const view = state.$view!.value;
 
   const pages = useMemo(() => {
     const numberOfPages = Math.max(...installedApps.map((x) => x.page)) + 1;
@@ -69,21 +72,16 @@ export default () => {
           <AppDock />
         </Footer>
       </Screen>
-      <Screen
-        class={cx(
-          state.$view!.value === "home"
-            ? "opacity-0 pointer-events-none"
-            : "opacity-100"
-        )}
-      >
-        {runningApps.map(
-          ({ Component, id, order }) =>
-            Component && (
-              <div key={id} class={`relative z-[${order}]`}>
-                <Component key={id} />
-              </div>
-            )
-        )}
+      <Screen class={cx("!bg-transparent", view === "home" && "hidden")}>
+        {runningApps.map((app) => {
+          const top = Math.max(...runningApps.map((x) => x.order ?? 0));
+          const focus = app.order === top;
+          return (
+            <div class={cx(`relative z-[${app.order}]`, !focus && "hidden")}>
+              <LazyApp key={app.id} app={app} />
+            </div>
+          );
+        })}
       </Screen>
       <button
         class="fixed bottom-0 h-6 w-full z-10"
@@ -91,6 +89,23 @@ export default () => {
       />
     </>
   );
+};
+
+const Fallback = () => {
+  return <div class="bg-transparent"></div>;
+};
+
+const LazyApp = (props: { app: App }) => {
+  const { app } = props;
+  const [Component, setComponent] = useState<(props: any) => JSX.Element>(
+    () => Fallback
+  );
+  useEffect(() => {
+    app.mod().then((x) => {
+      setComponent(() => x.default);
+    });
+  }, []);
+  return <Component />;
 };
 
 const getTween = (b: number, e: number, i: number) => {
