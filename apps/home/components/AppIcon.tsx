@@ -7,25 +7,22 @@ export const AppIcon = (props: { app: InstalledApp; hideName?: boolean }) => {
     <div
       class="col aic gap-1 px-0.5 select-none"
       onClick={() => {
+        const installedApps = state.$installedApps!.value;
         const runningApps = state.$runningApps!.value;
-        const runningAppsArray = state.$runningAppsArray!.value;
-
-        const app = runningApps[id as keyof typeof runningApps];
-        const order = Math.max(0, ...runningAppsArray.map((v) => v.order)) + 1;
-
-        if (app) {
+        const order = Math.max(0, ...runningApps.map((v) => v.order ?? 0)) + 1;
+        if (props.app.order) {
           state.$view!.value = "app";
-          state.$runningApps!.value = {
-            ...runningApps,
-            [id]: { ...app, order },
+          state.$installedApps!.value = {
+            ...installedApps,
+            [id]: { ...props.app, order },
           };
         } else {
           mod().then((x) => {
             state.$view!.value = "app";
-            state.$runningApps!.value = {
-              ...state.$runningApps!.value,
+            state.$installedApps!.value = {
+              ...installedApps,
               [id]: {
-                id,
+                ...props.app,
                 Component: x.default,
                 order,
               },

@@ -10,6 +10,8 @@ export type InstalledApp = {
   page: number;
   docked: boolean;
   mod: () => Promise<{ default: (props: any) => JSX.Element }>;
+  order?: number;
+  Component?: (props: any) => JSX.Element;
 };
 
 export const InstalledApps = Object.fromEntries(

@@ -1,9 +1,9 @@
 import { Nav, Center } from "../../../components/Nav";
-import { state } from "../state";
+import { state, vals } from "../state";
 import { AppIcon } from "./AppIcon";
 
 export const AppDock = () => {
-  const dockedApps = state.$installedAppsArray!.value.filter(
+  const dockedApps = vals(state.$installedApps!.value).filter(
     (app) => app.docked
   );
   return (

@@ -6,7 +6,7 @@ import { Screen } from "../../../components/Screen";
 import { Main } from "../../../components/Main";
 import { Nav, Center } from "../../../components/Nav";
 import { Icon } from "../../../elements/Icon";
-import { state } from "../state";
+import { state, vals } from "../state";
 import { AppIcon } from "../components/AppIcon";
 import { RevertDeepSignal } from "deepsignal";
 
@@ -15,12 +15,12 @@ export const AppLibrary = () => {
   const visualViewportHeight = useSignal(0);
 
   const folders = useMemo(() => {
-    return state.$installedAppsArray!.value.reduce((all, one, i) => {
+    return vals(state.$installedApps!.value).reduce((all, one, i) => {
       const ch = Math.floor(i / 3);
       // @ts-ignore
       all[ch] = [].concat(all[ch] ?? [], one);
       return all;
-    }, [] as RevertDeepSignal<typeof state.$installedAppsArray>[]);
+    }, [] as RevertDeepSignal<typeof state.$installedApps>[]);
   }, []);
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export const AppLibrary = () => {
                     {
                       // @ts-ignore
                       groups[i + 1 > groups.length - 1 ? 0 : i + 1]?.map(
-                        (app: (typeof state.installedAppsArray)[0]) => (
+                        (app: (typeof state.installedApps)[0]) => (
                           <AppIcon app={app} hideName />
                         )
                       )
@@ -112,7 +112,7 @@ export const AppLibrary = () => {
         >
           <div class="col px-6 pt-2 pb-8">
             <h2 class="text-lg font-semibold">A</h2>
-            {state.$installedAppsArray!.value.map((app) => {
+            {vals(state.$installedApps!.value).map((app) => {
               return (
                 <div class="row aic gap-3.5">
                   <div class="w-14 aspect-square flex-none">

@@ -1,7 +1,7 @@
 import { useMemo } from "preact/hooks";
 import { Footer } from "../../components/Footer";
 import { Screen } from "../../components/Screen";
-import { state } from "./state";
+import { state, vals } from "./state";
 import { ScreenScroller } from "../../components/ScreenScroller";
 import { useSignal } from "@preact/signals";
 import { css, cx } from "@twind/core";
@@ -11,8 +11,8 @@ import { AppDock } from "./components/AppDock";
 import { PageIndicator } from "./components/PageIndicator";
 
 export default () => {
-  const installedApps = state.$installedAppsArray!.value;
-  const runningApps = state.$runningAppsArray!.value;
+  const installedApps = vals(state.$installedApps!.value);
+  const runningApps = state.$runningApps!.value;
 
   const pages = useMemo(() => {
     const numberOfPages = Math.max(...installedApps.map((x) => x.page)) + 1;
@@ -76,11 +76,14 @@ export default () => {
             : "opacity-100"
         )}
       >
-        {runningApps.map(({ Component, id, order }) => (
-          <div key={id} class={`relative z-[${order}]`}>
-            <Component key={id} />
-          </div>
-        ))}
+        {runningApps.map(
+          ({ Component, id, order }) =>
+            Component && (
+              <div key={id} class={`relative z-[${order}]`}>
+                <Component key={id} />
+              </div>
+            )
+        )}
       </Screen>
       <button
         class="fixed bottom-0 h-6 w-full z-10"
