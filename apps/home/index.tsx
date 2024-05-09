@@ -42,15 +42,7 @@ export default () => {
         <ScreenScroller
           startAt={startAt}
           onProgress={(x) => (progress.value = x)}
-          class={css`
-            @apply relative z-20;
-            &::before {
-              @apply backdrop-blur-[calc(calc(1 - var(--i)) * 32px)];
-            }
-            &::after {
-              @apply backdrop-blur-[calc(calc(var(--i) - ${pages.length}) * 32px)];
-            }
-          `}
+          class={blurOverlay}
         >
           <Screen class="bg-transparent z-30"></Screen>
           {pages.map(AppGrid(progress))}
@@ -72,12 +64,17 @@ export default () => {
           <AppDock />
         </Footer>
       </Screen>
-      <Screen class={cx("!bg-transparent", view === "home" && "hidden")}>
+      <Screen
+        class={cx(
+          "!bg-transparent",
+          view === "home" && "opacity-0 pointer-events-none"
+        )}
+      >
         {runningApps.map((app) => {
           const top = Math.max(...runningApps.map((x) => x.order ?? 0));
           const focus = app.order === top;
           return (
-            <div class={cx(`relative z-[${app.order}]`, !focus && "hidden")}>
+            <div class={cx(`relative z-[${app.order}]`, !focus && "opacity-0")}>
               <LazyApp key={app.id} app={app} />
             </div>
           );
@@ -101,9 +98,7 @@ const LazyApp = (props: { app: App }) => {
     () => Fallback
   );
   useEffect(() => {
-    app.mod().then((x) => {
-      setComponent(() => x.default);
-    });
+    app.mod().then((x) => setComponent(() => x.default));
   }, []);
   return <Component />;
 };
@@ -115,3 +110,13 @@ const getTween = (b: number, e: number, i: number) => {
 export const scale = (a: number, b: number, c: number) => {
   return `scale(${getTween(a, b, Math.max(0, Math.min(c, 1)) * 100)})`;
 };
+
+const blurOverlay = css`
+  @apply relative z-20;
+  &::before {
+    @apply backdrop-blur-[calc(calc(1 - var(--i)) * 32px)];
+  }
+  &::after {
+    @apply backdrop-blur-[calc(calc(var(--i) - calc(var(--n) - 2)) * 32px)];
+  }
+`;
