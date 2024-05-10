@@ -9,9 +9,8 @@ export type App = {
   icon: string;
   page: number;
   docked: boolean;
-  mod: () => Promise<{ default: (props: any) => JSX.Element }>;
+  mod: () => Promise<{ default: () => JSX.Element }>;
   order?: number;
-  Component?: (props: any) => JSX.Element;
 };
 
 export const apps = Object.fromEntries(

@@ -9,7 +9,7 @@ import { AppGrid } from "./screens/AppGrid";
 import { AppLibrary } from "./screens/AppLibrary";
 import { AppDock } from "./components/AppDock";
 import { PageIndicator } from "./components/PageIndicator";
-import { LazyApp } from "./components/LazyApp";
+import { Lazy } from "../../components/Lazy";
 
 export default () => {
   const installedApps = state.$installedApps!.value;
@@ -73,14 +73,14 @@ export default () => {
           const top = Math.max(...runningApps.map((x) => x.order ?? 0));
           const focus = app.order === top;
           return (
-            <div class={cx(`relative z-[${app.order}]`, !focus && "opacity-0")}>
-              <LazyApp key={app.id} app={app} />
+            <div class={!focus ? "opacity-0 pointer-events-none" : undefined}>
+              <Lazy key={app.id} mod={app.mod} />
             </div>
           );
         })}
       </Screen>
       <button
-        class="fixed bottom-0 h-12 w-full z-10"
+        class="fixed bottom-0 h-10 w-full z-10"
         onClick={() => (state.$view!.value = "home")}
       />
     </>
