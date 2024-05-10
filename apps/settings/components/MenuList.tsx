@@ -4,7 +4,7 @@ import { Switch } from "../../../elements/Switch";
 
 export const MenuList = (props: { items: any[] }) => {
   return (
-    <ul class="w-full bg-[#1c1c1e] py-1 px-3 rounded-xl children:(w-full row aic gap-4)">
+    <ul class="w-full bg-[#1c1c1e] px-3 rounded-xl children:(w-full row aic gap-4)">
       {props.items.map((item) => (
         <MenuItem {...item} />
       ))}
@@ -31,14 +31,16 @@ const MenuItem = (props: {
         size="7"
         class={`bg-${props.fill} rounded-[6px] p-0.5`}
       />
-      <div class="row aib flex-1 pb-2.5 pt-2">
+      <div class="row aife flex-1 pb-2.5 pt-2">
         <span class="flex-1">{props.title}</span>
         {typeof props.value === "boolean" ? (
           <Switch checked={props.value} />
         ) : (
           <div class="row aic">
-            <span class="text-(sm neutral-500) font-light">{props.value}</span>
-            <Icon id="chevron-forward" size="5" class="text-neutral-700" />
+            <span class="text-(base neutral-400) font-light">
+              {props.value}
+            </span>
+            <Icon id="chevron-forward" size="6" class="text-neutral-600" />
           </div>
         )}
       </div>
