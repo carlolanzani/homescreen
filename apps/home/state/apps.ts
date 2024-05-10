@@ -17,7 +17,7 @@ export type App = {
 export const apps = Object.fromEntries(
   Object.entries(installed)
     .filter(([path]) => path.startsWith("../../"))
-    .map(([path, mod]) => {
+    .map(([path, mod], i) => {
       const id = path.split("/")[2];
       return [
         id,
@@ -27,7 +27,7 @@ export const apps = Object.fromEntries(
           mod: mod as App["mod"],
           icon: (icons[`../../${id}/icon.png`] as { default: string })?.default,
           page: Math.random() < 0.5 ? 0 : 1,
-          docked: true,
+          docked: i < 4,
         },
       ];
     })
