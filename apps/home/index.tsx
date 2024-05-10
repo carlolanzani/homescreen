@@ -80,7 +80,7 @@ export default () => {
         })}
       </Screen>
       <button
-        class="fixed bottom-0 h-6 w-full z-10"
+        class="fixed bottom-0 h-12 w-full z-10"
         onClick={() => (state.$view!.value = "home")}
       />
     </>
