@@ -5,14 +5,14 @@ export const tabs = {
   },
   alarm: {
     name: "Alarm",
-    icon: "heart-text-square-fill",
+    icon: "alarm-fill",
   },
   stopwatch: {
     name: "Stopwatch",
-    icon: "rectangle-stack",
+    icon: "stopwatch-fill",
   },
   timers: {
     name: "Timers",
-    icon: "search",
+    icon: "timer",
   },
 };
