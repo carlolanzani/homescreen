@@ -1,5 +1,4 @@
-import { JSX } from "preact/jsx-runtime";
-import { useEffect, useMemo, useState } from "preact/hooks";
+import { useMemo } from "preact/hooks";
 import { Footer } from "../../components/Footer";
 import { Screen } from "../../components/Screen";
 import { state } from "./state";
@@ -10,7 +9,7 @@ import { AppGrid } from "./screens/AppGrid";
 import { AppLibrary } from "./screens/AppLibrary";
 import { AppDock } from "./components/AppDock";
 import { PageIndicator } from "./components/PageIndicator";
-import { App } from "./state/apps";
+import { LazyApp } from "./components/LazyApp";
 
 export default () => {
   const installedApps = state.$installedApps!.value;
@@ -86,21 +85,6 @@ export default () => {
       />
     </>
   );
-};
-
-const Fallback = () => {
-  return <div class="bg-transparent"></div>;
-};
-
-const LazyApp = (props: { app: App }) => {
-  const { app } = props;
-  const [Component, setComponent] = useState<(props: any) => JSX.Element>(
-    () => Fallback
-  );
-  useEffect(() => {
-    app.mod().then((x) => setComponent(() => x.default));
-  }, []);
-  return <Component />;
 };
 
 const getTween = (b: number, e: number, i: number) => {
