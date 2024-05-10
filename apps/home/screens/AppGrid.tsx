@@ -1,4 +1,3 @@
-import { css } from "@twind/core";
 import { Main } from "../../../components/Main";
 import { Screen } from "../../../components/Screen";
 import { state } from "../state";
@@ -9,9 +8,9 @@ import { Signal } from "@preact/signals";
 export const AppGrid =
   (progress: Signal<number>) =>
   (
-    apps: typeof state.installedAppsArray,
+    apps: typeof state.installedApps,
     i: number,
-    pages: (typeof state.installedAppsArray)[]
+    pages: (typeof state.installedApps)[]
   ) => {
     const first = i === 0 && "right";
     const last = i === pages.length - 1 && "left";
@@ -28,9 +27,12 @@ export const AppGrid =
                 : scale(1, 0.9, progress.value - pages.length),
           }}
         >
-          <div class="w-full flex-none grid grid-cols-4 grid-rows-6 p-6 gap-x-6 gap-y-3">
+          <div class="w-full flex-none grid grid-cols-4 grid-rows-6 p-6 gap-x-6 gap-y-4 pt-8">
             {apps.map((app) => (
-              <AppIcon app={app} />
+              <div class="col aic gap-1.5">
+                <AppIcon app={app} />
+                <p class="text-center text-xs capitalize">{app.name}</p>
+              </div>
             ))}
           </div>
         </Main>

@@ -8,7 +8,7 @@ export const AppDock = () => {
     <Nav>
       <Center class="gap-6 bg-black/20 py-3.5 px-4 rounded-3xl">
         {dockedApps.map((app) => (
-          <AppIcon key={app.id} app={app} hideName />
+          <AppIcon key={app.id} app={app} />
         ))}
       </Center>
     </Nav>

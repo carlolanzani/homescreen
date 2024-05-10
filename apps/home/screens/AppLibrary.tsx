@@ -82,7 +82,7 @@ export const AppLibrary = () => {
                   {
                     // @ts-ignore
                     group?.map((app) => (
-                      <AppIcon app={app} hideName />
+                      <AppIcon app={app} />
                     ))
                   }
                   <div class="grid grid-cols-2 grid-rows-2 p-0.5 gap-x-1 gap-y-1">
@@ -90,7 +90,7 @@ export const AppLibrary = () => {
                       // @ts-ignore
                       groups[i + 1 > groups.length - 1 ? 0 : i + 1]?.map(
                         (app: (typeof state.installedApps)[0]) => (
-                          <AppIcon app={app} hideName />
+                          <AppIcon app={app} />
                         )
                       )
                     }
@@ -116,7 +116,7 @@ export const AppLibrary = () => {
               return (
                 <div class="row aic gap-3.5">
                   <div class="w-14 aspect-square flex-none">
-                    <AppIcon app={app} hideName />
+                    <AppIcon app={app} />
                   </div>
                   <div class="w-full text-lg border-(b white/10) py-6">
                     {app.name}

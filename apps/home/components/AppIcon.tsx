@@ -1,10 +1,10 @@
 import { state } from "../state";
 import { App } from "../state/apps";
 
-export const AppIcon = (props: { app: App; hideName?: boolean }) => {
+export const AppIcon = (props: { app: App }) => {
   const { id, icon, name } = props.app;
 
-  const launch = (e: Event) => {
+  const launch = () => {
     const apps = state.$apps!.value;
     const runningApps = state.$runningApps!.value;
     const order = Math.max(0, ...runningApps.map((v) => v.order ?? 0)) + 1;
@@ -16,9 +16,13 @@ export const AppIcon = (props: { app: App; hideName?: boolean }) => {
   };
 
   return (
-    <div class="col aic gap-1 px-0.5 select-none" onClick={launch}>
-      <img src={icon} alt={name} class="aspect-square w-full" />
-      {!props.hideName && <p class="text-center text-xs capitalize">{name}</p>}
+    <div class="px-0.5">
+      <img
+        src={icon}
+        alt={name}
+        class="aspect-square w-full select-none"
+        onClick={launch}
+      />
     </div>
   );
 };
