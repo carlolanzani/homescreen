@@ -1,15 +1,7 @@
-import { JSX } from "preact/jsx-runtime";
-
-export type Screen = {
-  name: string;
-  icon: string;
-  order?: number;
-  id: string;
-  mod?: () => Promise<{ default: () => JSX.Element }>;
-};
+import { StackedScreen } from "../../../components/ScreenStack";
 
 const files = import.meta.glob("../screens/*.tsx");
-const meta: Record<string, Omit<Screen, "id" | "mod">> = {
+const meta: Record<string, Omit<StackedScreen, "id" | "mod">> = {
   WorldClock: {
     name: "World Clock",
     icon: "globe",
@@ -41,7 +33,7 @@ export const screens = {
         id,
         {
           id,
-          mod: mod as Screen["mod"],
+          mod: mod as StackedScreen["mod"],
           name: name ?? id,
           icon: icon ?? "questionmark-app",
           ...(order ? { order } : {}),

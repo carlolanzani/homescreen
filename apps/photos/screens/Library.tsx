@@ -1,9 +1,10 @@
 import { Header } from "../../../components/Header";
 import { Main } from "../../../components/Main";
+import { Screen } from "../../../components/Screen";
 
-export const Library = () => {
+export default () => {
   return (
-    <>
+    <Screen class="!bg-[#020202]">
       <Header transparent class="bg-gradient-to-b from-black/100 to-black/0">
         <div class="w-full row aifs gap-2 px-6 pt-3 pb-4">
           <div class="w-full col flex-1 gap-1">
@@ -40,6 +41,6 @@ export const Library = () => {
           </div>
         </div>
       </Main>
-    </>
+    </Screen>
   );
 };

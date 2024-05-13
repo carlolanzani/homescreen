@@ -1,18 +1,11 @@
-import { DeepSignal, RevertDeepSignal, deepSignal } from "deepsignal";
-import { Screen, screens } from "./screens";
-import { Signal } from "@preact/signals";
+import { deepSignal } from "deepsignal";
+import { screens } from "./screens";
+import { StackedScreen } from "../../../components/ScreenStack";
 
 type State = {
-  screens: Record<string, Screen>;
+  screens: Record<string, StackedScreen>;
 };
 
 export const state = deepSignal<State>({
   screens,
 });
-
-export const vals = <T extends any>(
-  o:
-    | DeepSignal<Record<string, T>>
-    | Signal<Record<string, T>>
-    | Record<string, T>
-) => Object.values(o as RevertDeepSignal<typeof o>) as T[];
