@@ -6,7 +6,7 @@ import { Center, Nav } from "../../components/Nav";
 import { Footer } from "../../components/Footer";
 import { ForYou } from "./screens/ForYou";
 import { Library } from "./screens/Library";
-import { Tabs } from "./state/Tabs";
+import { screens } from "./state/screens";
 
 export default () => {
   const [tab, setTab] = useState("foryou");
@@ -17,7 +17,7 @@ export default () => {
       <Footer class="col gap-2 text-white !pb-0">
         <Nav class="bg-black/50 backdrop-blur-lg pb-9 pt-0 text-neutral-400">
           <Center class="children:(col aic text-[10px])">
-            {Object.entries(Tabs).map(([key, value]) => (
+            {Object.entries(screens).map(([key, value]) => (
               <div
                 class={tab === key ? "text-blue-500" : undefined}
                 onClick={() => setTab(key)}

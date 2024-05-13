@@ -3,25 +3,24 @@ import { Center, Nav } from "../../components/Nav";
 import { Footer } from "../../components/Footer";
 import { Lazy } from "../../components/Lazy";
 import { Icon } from "../../elements/Icon";
-import { state } from "./state";
+import { state, vals } from "./state";
 import { cx } from "@twind/core";
-import { JSX } from "preact/jsx-runtime";
+import { Signal } from "@preact/signals";
+import { Screen as ScreenType } from "./state/screens";
 
 const ScreenStack = (props: {
-  screens: {
-    id: string;
-    order?: number;
-    mod: () => Promise<{ default: () => JSX.Element }>;
-  }[];
+  screens: Signal<Record<string, ScreenType>>;
 }) => {
-  const { screens } = props;
+  const screens = vals(props.screens!.value).filter((screen) => screen.order);
   const top = Math.max(...screens.map((x) => x.order ?? 0));
   return (
     <Screen>
       {screens.map((screen) => {
         const focus = screen.order === top;
+        if (!screen.mod) return null;
         return (
           <div
+            key={screen.id}
             class={cx(
               `relative z-[${screen.order}]`,
               !focus && "pointer-events-none"
@@ -35,38 +34,28 @@ const ScreenStack = (props: {
   );
 };
 
-const ScreenTabs = (props: {
-  tabs: {
-    id: string;
-    name: string;
-    icon: string;
-    order?: number;
-    mod: () => Promise<{ default: () => JSX.Element }>;
-  }[];
-}) => {
-  const { tabs } = props;
+const ScreenTabs = (props: { screens: Signal<Record<string, ScreenType>> }) => {
+  const screens = vals(props.screens!.value);
+  const top = Math.max(...screens.map((x) => x.order ?? 0));
 
-  const launch = (tab: (typeof props.tabs)[0]) => {
-    const tabs = state.$tabs!.value;
-    const openTabs = state.$openTabs!.value;
-    const order = Math.max(0, ...openTabs.map((v) => v.order ?? 0)) + 1;
-    state.$tabs!.value = {
-      ...tabs,
-      [tab.id]: { ...tab, order },
+  const stack = (screen: (typeof screens)[0]) => {
+    props.screens!.value = {
+      ...props.screens.value,
+      [screen.id]: { ...screen, order: top + 1 },
     };
   };
 
   return (
     <>
-      {tabs.map((tab) => {
-        const focus = tab.order === Math.max(...tabs.map((x) => x.order ?? 0));
+      {screens.map((screen) => {
+        const focus = screen.order === top;
         return (
           <div
             class={focus ? "text-yellow-600" : "text-neutral-500"}
-            onClick={() => launch(tab)}
+            onClick={() => stack(screen)}
           >
-            <Icon id={tab.icon} size="9" />
-            <span class="leading-none">{tab.name}</span>
+            <Icon id={screen.icon} size="9" />
+            <span class="leading-none">{screen.name}</span>
           </div>
         );
       })}
@@ -75,15 +64,13 @@ const ScreenTabs = (props: {
 };
 
 export default () => {
-  const listedTabs = state.$listedTabs!.value;
-  const openTabs = state.$openTabs!.value;
   return (
     <Screen class="!bg-[#020202]">
-      <ScreenStack screens={openTabs} />
+      <ScreenStack screens={state.$screens!} />
       <Footer class="!bg-inherit col gap-2">
-        <Nav class="px-4 pb-6">
-          <Center class="!jcsb children:(col aic text-[10px])">
-            <ScreenTabs tabs={listedTabs} />
+        <Nav class="!px-0 pb-6">
+          <Center class="children:(col aic text-[10px])">
+            <ScreenTabs screens={state.$screens!} />
           </Center>
         </Nav>
       </Footer>

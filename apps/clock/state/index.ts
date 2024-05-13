@@ -1,21 +1,18 @@
 import { DeepSignal, RevertDeepSignal, deepSignal } from "deepsignal";
-import { Tab, tabs } from "./tabs";
+import { Screen, screens } from "./screens";
+import { Signal } from "@preact/signals";
 
 type State = {
-  tabs: Record<string, Tab>;
-  listedTabs: Tab[];
-  openTabs: Tab[];
+  screens: Record<string, Screen>;
 };
 
-export const vals = <T extends any>(o: DeepSignal<Record<string, T>>) =>
-  Object.values(o as RevertDeepSignal<typeof o>) as T[];
-
 export const state = deepSignal<State>({
-  tabs,
-  get listedTabs(): Tab[] {
-    return vals(state.tabs);
-  },
-  get openTabs(): Tab[] {
-    return vals(state.tabs).filter((tab) => tab.order);
-  },
+  screens,
 });
+
+export const vals = <T extends any>(
+  o:
+    | DeepSignal<Record<string, T>>
+    | Signal<Record<string, T>>
+    | Record<string, T>
+) => Object.values(o as RevertDeepSignal<typeof o>) as T[];

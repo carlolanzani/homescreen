@@ -1,4 +1,4 @@
-export const Tabs = {
+export const screens = {
   library: {
     name: "Library",
     icon: "photo-stack",
