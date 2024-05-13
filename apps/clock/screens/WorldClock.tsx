@@ -3,8 +3,11 @@ import { Header } from "../../../components/Header";
 import { Main } from "../../../components/Main";
 import { Nav, Left, Right } from "../../../components/Nav";
 import { Icon } from "../../../elements/Icon";
+import { state } from "../state";
+import { vals } from "../../../components/ScreenStack";
 
 export default () => {
+  const now = new Date();
   return (
     <Screen class="!bg-[#020202]">
       <Header class="!bg-inherit !border-none">
@@ -13,7 +16,9 @@ export default () => {
             <button class="text-base">Edit</button>
           </Left>
           <Right>
-            <Icon id="plus" size="8" />
+            <button class="-mr-2">
+              <Icon id="plus" size="8" />
+            </button>
           </Right>
         </Nav>
       </Header>
@@ -22,25 +27,39 @@ export default () => {
           World Clock
         </h1>
         <div class="col mt-1">
-          {[
-            "Seattle",
-            "New York",
-            "London",
-            "Berlin",
-            "Moscow",
-            "Beijing",
-            "Tokyo",
-            "Sydney",
-          ].map((city) => {
+          {vals(state.$clocks!.value).map((clock) => {
+            const local = {
+              hour: parseInt(
+                new Intl.DateTimeFormat(undefined, {
+                  hour: "numeric",
+                  timeZone: clock.timeZone,
+                }).format(now)
+              ),
+              day: parseInt(
+                new Intl.DateTimeFormat(undefined, {
+                  day: "numeric",
+                  timeZone: clock.timeZone,
+                }).format(now)
+              ),
+            };
+
             return (
               <div class="row gap-2 py-4 border-(b white/10)">
                 <div class="flex-1 col">
                   <p class="text-sm font-light text-neutral-400">
-                    Yesterday -8HRS
+                    {getTodayYesterdayTomorrow(local)}
+                    {", "}
+                    {getTimezoneOffset(now, clock.timeZone)}
                   </p>
-                  <h2 class="text-3xl">{city}</h2>
+                  <h2 class="text-3xl">{clock.city}</h2>
                 </div>
-                <span class="text-6xl font-extralight">15:35</span>
+                <span class="text-6xl font-extralight">
+                  {new Intl.DateTimeFormat(undefined, {
+                    hour: "numeric",
+                    minute: "numeric",
+                    timeZone: clock.timeZone,
+                  }).format(now)}
+                </span>
               </div>
             );
           })}
@@ -48,4 +67,30 @@ export default () => {
       </Main>
     </Screen>
   );
+};
+
+const getTodayYesterdayTomorrow = (local: { hour: number; day: number }) => {
+  const day = parseInt(
+    new Intl.DateTimeFormat(undefined, {
+      day: "numeric",
+    }).format(new Date())
+  );
+  return local.day === day
+    ? "Today"
+    : local.day < day
+    ? "Yesterday"
+    : "Tomorrow";
+};
+
+// Return offset on date for loc in ±H[:mm] format.
+const getTimezoneOffset = (date: Date, loc: string) => {
+  return `${
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: loc,
+      timeZoneName: "shortOffset",
+    })
+      .formatToParts(date)
+      .filter((e) => e.type === "timeZoneName")[0]
+      .value.match(/([\+|\-]\d+)/)?.[1]
+  }HRS`;
 };
