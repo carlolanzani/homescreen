@@ -67,7 +67,8 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
       touched = true;
       swipeDistance = 0;
       scrollers = $.querySelectorAll(".overflow-y-scroll");
-      Array.from($.children).forEach((el, index) => {
+      Array.from($.children).forEach((child, index) => {
+        const el = child as HTMLElement;
         Math.abs(index - fin) > 1
           ? (el.style.display = "none")
           : (el.style.display = "block");
@@ -146,7 +147,8 @@ export const useScreenScroller = (onProgress?: (progress: number) => void) => {
       }
     }
 
-    Array.from($.children).forEach((el, i) => {
+    Array.from($.children).forEach((child, i) => {
+      const el = child as HTMLElement;
       if (el.hasAttribute("data-fixed")) {
         // @ts-ignore
         const stick = el.getAttribute("data-fixed") || "both";

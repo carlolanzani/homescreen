@@ -9,7 +9,7 @@ export default () => {
   return (
     <Screen class="!bg-[#020202]">
       <Header class="!bg-inherit !border-none">
-        <Nav class="text-yellow-600 pb-0 px-4">
+        <Nav class="text-yellow-600 pb-0 px-4 pr-2">
           <Left>
             <button class="text-base">Edit</button>
           </Left>

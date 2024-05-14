@@ -1,9 +1,15 @@
 export type Clock = {
+  id: string;
   city: string;
   timeZone: string;
+  hour: number;
+  day: number;
+  tyt: string;
+  hourDifference: string;
+  time: string;
 };
 
-const hardcoded = {
+const seed = {
   London: {
     timeZone: "Europe/London",
   },
@@ -27,11 +33,71 @@ const hardcoded = {
   },
 };
 
-export const clocks = Object.fromEntries(
-  Object.entries(hardcoded).map(([city, value]) => {
-    return [city, { city, ...value }];
-  })
-);
+export const clocks = createClocks(seed);
+
+export function createClocks(clocks: Record<string, { timeZone: string }>) {
+  return Object.fromEntries(
+    Object.entries(clocks).map(([, clock]) => {
+      return [clock.timeZone, createClock(clock.timeZone)];
+    })
+  );
+}
+
+function createClock(timeZone: string): Clock {
+  const now = new Date();
+  const city = timeZone?.split("/")[1]?.replace(/_/g, " ");
+  const hour = parseInt(
+    new Intl.DateTimeFormat(undefined, {
+      hour: "numeric",
+      timeZone,
+    }).format(now)
+  );
+  const day = parseInt(
+    new Intl.DateTimeFormat(undefined, {
+      day: "numeric",
+      timeZone,
+    }).format(now)
+  );
+  const tyt = getTodayYesterdayTomorrow(day);
+  const hourDifference = getHourDifference(timeZone);
+  const time = new Intl.DateTimeFormat(undefined, {
+    hour: "numeric",
+    minute: "numeric",
+    timeZone,
+  }).format(now);
+  return {
+    id: timeZone,
+    timeZone,
+    city,
+    hour,
+    day,
+    tyt,
+    hourDifference,
+    time,
+  };
+}
+
+function getTodayYesterdayTomorrow(localeDay: number) {
+  const currentDay = new Date().getDate();
+  return localeDay === currentDay
+    ? "Today"
+    : localeDay < currentDay
+    ? "Yesterday"
+    : "Tomorrow";
+}
+
+function getHourDifference(timeZone: string) {
+  const now = new Date();
+  return `${
+    new Intl.DateTimeFormat("en-US", {
+      timeZone,
+      timeZoneName: "shortOffset",
+    })
+      .formatToParts(now)
+      .filter((e) => e.type === "timeZoneName")[0]
+      .value.match(/([\+|\-]\d+)/)?.[1]
+  }HRS`;
+}
 
 const timeZones = [
   "Africa/Casablanca",
