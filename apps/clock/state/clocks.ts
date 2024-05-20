@@ -99,7 +99,7 @@ function getHourDifference(timeZone: string) {
   }HRS`;
 }
 
-const timeZones = [
+export const timeZones = [
   "Africa/Casablanca",
   "Africa/Johannesburg",
   "Africa/Lagos",

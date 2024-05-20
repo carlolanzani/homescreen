@@ -12,7 +12,7 @@ export const vals = <T extends any>(o: DeepSignal<Record<string, T>>) =>
   Object.values(o as RevertDeepSignal<typeof o>) as T[];
 
 export const state = deepSignal<State>({
-  view: "home",
+  view: "app",
   apps,
   get installedApps(): App[] {
     return vals(state.apps);

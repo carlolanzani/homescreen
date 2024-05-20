@@ -27,6 +27,7 @@ export const apps = Object.fromEntries(
           icon: (icons[`../../${id}/icon.png`] as { default: string })?.default,
           page: Math.random() < 0.5 ? 0 : 1,
           docked: i < 4,
+          order: id === "clock" ? 1 : 0,
         },
       ];
     })

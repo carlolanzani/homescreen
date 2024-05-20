@@ -3,7 +3,6 @@ import { Main } from "../../../components/Main";
 import { Nav, Left, Right } from "../../../components/Nav";
 import { Screen } from "../../../components/Screen";
 import { Icon } from "../../../elements/Icon";
-import { Switch } from "../../../elements/Switch";
 
 export default () => {
   return (
