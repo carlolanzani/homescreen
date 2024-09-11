@@ -9,6 +9,7 @@ import { Icon } from "../../../elements/Icon";
 import { state } from "../state";
 import { AppIcon } from "../components/AppIcon";
 import { RevertDeepSignal } from "deepsignal";
+import { AppLauncher } from "../components/AppLauncher";
 
 export const AppLibrary = () => {
   const searchFocussed = useSignal(false);
@@ -82,7 +83,7 @@ export const AppLibrary = () => {
                   {
                     // @ts-ignore
                     group?.map((app) => (
-                      <AppIcon app={app} />
+                      <AppLauncher key={app.id} app={app} />
                     ))
                   }
                   <div class="grid grid-cols-2 grid-rows-2 p-0.5 gap-x-1 gap-y-1">
@@ -90,7 +91,7 @@ export const AppLibrary = () => {
                       // @ts-ignore
                       groups[i + 1 > groups.length - 1 ? 0 : i + 1]?.map(
                         (app: (typeof state.installedApps)[0]) => (
-                          <AppIcon app={app} />
+                          <AppLauncher key={app.id} app={app} />
                         )
                       )
                     }
@@ -114,9 +115,9 @@ export const AppLibrary = () => {
             <h2 class="text-lg font-semibold">A</h2>
             {state.$installedApps!.value.map((app) => {
               return (
-                <div class="row aic gap-3.5">
+                <div key={app.id} class="row aic gap-3.5">
                   <div class="w-14 aspect-square flex-none">
-                    <AppIcon app={app} />
+                    <AppLauncher app={app} />
                   </div>
                   <div class="w-full text-lg border-(b white/10) py-6">
                     {app.name}

@@ -1,9 +1,9 @@
 import { Main } from "../../../components/Main";
 import { Screen } from "../../../components/Screen";
 import { state } from "../state";
-import { AppIcon } from "../components/AppIcon";
 import { scale } from "..";
 import { Signal } from "@preact/signals";
+import { AppLauncher } from "../components/AppLauncher";
 
 export const AppGrid =
   (progress: Signal<number>) =>
@@ -29,8 +29,8 @@ export const AppGrid =
         >
           <div class="w-full flex-none grid grid-cols-4 grid-rows-6 p-6 gap-x-6 gap-y-4 pt-8">
             {apps.map((app) => (
-              <div class="col aic gap-1.5">
-                <AppIcon app={app} />
+              <div key={app.id} class="col aic gap-1.5">
+                <AppLauncher app={app} />
                 <p class="text-center text-xs capitalize">{app.name}</p>
               </div>
             ))}

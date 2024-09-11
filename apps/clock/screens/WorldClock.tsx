@@ -52,7 +52,7 @@ export default () => {
           })}
         </div>
       </Main>
-      <ScrollOverlay />
+      {/* <ScrollOverlay /> */}
     </Screen>
   );
 };

@@ -9,7 +9,6 @@ import { AppGrid } from "./screens/AppGrid";
 import { AppLibrary } from "./screens/AppLibrary";
 import { AppDock } from "./components/AppDock";
 import { PageIndicator } from "./components/PageIndicator";
-import { Lazy } from "../../components/Lazy";
 
 export default () => {
   const installedApps = state.$installedApps!.value;
@@ -32,58 +31,35 @@ export default () => {
   const progress = useSignal(startAt);
 
   return (
-    <>
-      <Screen>
-        <div class="absolute inset-0 w-full h-full">
-          <img src="/images/image.jpeg" class="w-full h-full" />
-          <div class="absolute inset-0 w-full h-full backdrop-blur-lg" />
-        </div>
-        <ScreenScroller
-          startAt={startAt}
-          onProgress={(x) => (progress.value = x)}
-          class={blurOverlay}
-        >
-          <Screen class="bg-transparent z-30"></Screen>
-          {pages.map(AppGrid(progress))}
-          <AppLibrary />
-        </ScreenScroller>
-        <Footer
-          transparent
-          style={{
-            zIndex:
-              progress.value < 1 || progress.value > pages.length ? 0 : 30,
-            transformOrigin: "top",
-            transform:
-              progress.value < 1
-                ? scale(0.9, 1, progress.value)
-                : scale(1, 0.9, progress.value - pages.length),
-          }}
-        >
-          <PageIndicator lists={pages} progress={progress.value} />
-          <AppDock />
-        </Footer>
-      </Screen>
-      <Screen
-        class={cx(
-          "!bg-transparent",
-          view === "home" && "opacity-0 pointer-events-none"
-        )}
+    <Screen>
+      <div class="absolute inset-0 w-full h-full">
+        <img src="/images/image.jpeg" class="w-full h-full" />
+        <div class="absolute inset-0 w-full h-full backdrop-blur-lg" />
+      </div>
+      <ScreenScroller
+        startAt={startAt}
+        onProgress={(x) => (progress.value = x)}
+        class={blurOverlay}
       >
-        {runningApps.map((app) => {
-          const top = Math.max(...runningApps.map((x) => x.order ?? 0));
-          const focus = app.order === top;
-          return (
-            <div class={!focus ? "opacity-0 pointer-events-none" : undefined}>
-              <Lazy key={app.id} mod={app.mod} />
-            </div>
-          );
-        })}
-      </Screen>
-      <button
-        class="fixed bottom-0 h-10 w-full z-10"
-        onClick={() => (state.$view!.value = "home")}
-      />
-    </>
+        <Screen class="bg-transparent z-30"></Screen>
+        {pages.map(AppGrid(progress))}
+        <AppLibrary />
+      </ScreenScroller>
+      <Footer
+        transparent
+        style={{
+          zIndex: progress.value < 1 || progress.value > pages.length ? 0 : 30,
+          transformOrigin: "top",
+          transform:
+            progress.value < 1
+              ? scale(0.9, 1, progress.value)
+              : scale(1, 0.9, progress.value - pages.length),
+        }}
+      >
+        <PageIndicator lists={pages} progress={progress.value} />
+        <AppDock />
+      </Footer>
+    </Screen>
   );
 };
 

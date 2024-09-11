@@ -3,6 +3,9 @@ import mkcert from "vite-plugin-mkcert";
 
 export default defineConfig({
   plugins: [mkcert()],
+  server: {
+    port: 5174,
+  },
   build: {
     outDir: "docs",
   },
