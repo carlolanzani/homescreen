@@ -16,6 +16,14 @@ const config = defineConfig({
         header: "var(--header-height, 0)",
         footer: "var(--footer-height, 0)",
       },
+      aspectRatio: {
+        imax: "21/9",
+        cinema: "16/9",
+        landscape: "4/3",
+        square: "1/1",
+        portrait: "3/4",
+        tall: "9/16",
+      },
     },
   },
   rules: [
@@ -45,6 +53,15 @@ const config = defineConfig({
     ["jcsa", { justifyContent: "space-around" }],
     ["jcsb", { justifyContent: "space-between" }],
     ["text-balance", { textWrap: "balance" }],
+    ["ms-(\\d+)", (match) => ({ "margin-inline-start": `${match[1] / 4}rem` })],
+    ["me-(\\d+)", (match) => ({ "margin-inline-end": `${match[1] / 4}rem` })],
+    [
+      "ps-(\\d+)",
+      (match) => ({ "padding-inline-start": `${match[1] / 4}rem` }),
+    ],
+    ["pe-(\\d+)", (match) => ({ "padding-inline-end": `${match[1] / 4}rem` })],
+    ["ltr", { direction: "ltr" }],
+    ["rtl", { direction: "rtl" }],
   ],
 });
 

@@ -169,8 +169,8 @@ export const Launcher = (props: {
               & > #placeholder-clone {
                 pointer-events: none;
                 opacity: 1;
-                transition: opacity calc(var(--closing-duration) * 0.9s);
-                transition-delay: calc(var(--closing-duration) * 0.6s);
+                transition: opacity calc(var(--closing-duration) * 1s);
+                transition-delay: calc(var(--closing-duration) * 0.4s);
               }
 
               &:popover-open {
