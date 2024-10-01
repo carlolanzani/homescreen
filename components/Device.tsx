@@ -17,12 +17,15 @@ const visible = css`
 `;
 
 export const Device = (props: { children: Children }) => {
-  const child = useRef<HTMLDivElement>(null);
-
   const [enabled] = useState<boolean>(
     !(window.navigator as NavigatorStandalone).standalone &&
       window.self === window.top
   );
+  return enabled ? <Wrapper /> : props.children;
+};
+
+const Wrapper = () => {
+  const child = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const $elem: HTMLElement | null | undefined = child.current;
@@ -49,7 +52,7 @@ export const Device = (props: { children: Children }) => {
     return () => ro.disconnect();
   }, []);
 
-  return enabled ? (
+  return (
     <div
       ref={child}
       class={cx("flex-none relative w-screen h-screen bg-black", visible)}
@@ -180,7 +183,5 @@ export const Device = (props: { children: Children }) => {
         </span>
       </header>
     </div>
-  ) : (
-    props.children
   );
 };

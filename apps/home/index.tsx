@@ -12,8 +12,6 @@ import { PageIndicator } from "./components/PageIndicator";
 
 export default () => {
   const installedApps = state.$installedApps!.value;
-  const runningApps = state.$runningApps!.value;
-  const view = state.$view!.value;
 
   const pages = useMemo(() => {
     const numberOfPages = Math.max(...installedApps.map((x) => x.page)) + 1;
