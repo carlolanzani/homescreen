@@ -27,7 +27,9 @@
   <body></body>
   <script type="module">
     window.navigator.standalone && document.body.classList.add("standalone");
-    if (!window.navigator.standalone) {
+    // If we are in an iframe then we need to set the safe area insets
+    // as the browser will not know about the overlayed chrome
+    if (window.self !== window.top) {
       const styles = document.createElement("style");
       styles.textContent = `
         :root {

@@ -179,7 +179,7 @@ export const Launcher = (props: {
                 left: 0px;
                 width: 100vw;
                 height: 100vh;
-                border-radius: 3rem;
+                border-radius: 2.7rem;
                 pointer-events: auto;
                 transition-duration: calc(var(--opening-duration) * 1s);
                 transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);

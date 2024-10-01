@@ -73,8 +73,18 @@ injectGlobal`
   }
 
   body {
-    height: 100vh;
+    height: 100svh;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #222;
+  }
+
+  @media all and (display-mode: standalone) {
+    body {
+      height: 100vh;
+    }
   }
 
   ::-webkit-scrollbar {
