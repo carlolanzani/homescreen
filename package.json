@@ -20,7 +20,6 @@
     "@twind/preset-tailwind": "^1.1.4",
     "chokidar": "^3.6.0",
     "deepsignal": "^1.5.0",
-    "preact": "^10.19.3",
-    "use-web-animation": "^0.3.2"
+    "preact": "^10.19.3"
   }
 }

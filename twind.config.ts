@@ -81,6 +81,10 @@ injectGlobal`
     background: #222;
   }
 
+  * {
+    cursor: url("/images/cursor.png") 20 20, auto !important;
+  }
+
   @media all and (display-mode: standalone) {
     body {
       height: 100vh;
