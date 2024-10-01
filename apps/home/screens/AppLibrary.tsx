@@ -119,7 +119,7 @@ export const AppLibrary = () => {
                   <div class="w-14 aspect-square flex-none">
                     <AppLauncher app={app} />
                   </div>
-                  <div class="w-full text-lg border-(b white/10) py-6">
+                  <div class="w-full text-lg border-(b white/10) py-6 capitalize">
                     {app.name}
                   </div>
                 </div>

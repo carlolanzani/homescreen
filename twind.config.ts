@@ -83,6 +83,7 @@ injectGlobal`
 
   * {
     cursor: url("/images/cursor.png") 20 20, auto !important;
+    user-select: none;
   }
 
   @media all and (display-mode: standalone) {

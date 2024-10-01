@@ -8,7 +8,7 @@ export default (props: {
   label: string;
 }) => {
   return (
-    <Button class="col aic gap-0 text-sm">
+    <Button class="col aic gap-0 !p-0 text-sm">
       <Icon id={props.icon ?? "button-border-dashed"} size="8" />
       <span>{props.label ?? "Label"}</span>
     </Button>

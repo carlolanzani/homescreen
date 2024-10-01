@@ -145,8 +145,9 @@ export const Launcher = (props: {
               target.style.setProperty("--y", `${origin.y}px`);
               target.style.setProperty("--w", `${origin.width}px`);
               target.style.setProperty("--h", `${origin.height}px`);
-              target.style.setProperty("--opening-duration", "0.5");
-              target.style.setProperty("--closing-duration", "0.33");
+              target.style.setProperty("--opening-duration", ".4");
+              target.style.setProperty("--closing-duration", ".33");
+
               // Set the background of the placeholder to the icon's background
               const icon = placeholder.current!.firstElementChild!;
               const color = getComputedStyle(icon).backgroundColor;
@@ -169,8 +170,9 @@ export const Launcher = (props: {
               & > #placeholder-clone {
                 pointer-events: none;
                 opacity: 1;
-                transition: opacity calc(var(--closing-duration) * 1s);
-                transition-delay: calc(var(--closing-duration) * 0.4s);
+                transition: opacity calc(var(--closing-duration) * 0.8s);
+                transition-delay: calc(var(--closing-duration) * 0.38s);
+                transition-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
               }
 
               &:popover-open {

@@ -212,7 +212,7 @@ export const ScreenScroller = (props: {
             overflow: hidden;
             position: relative;
             height: 100%;
-            width: 100vw;
+            width: calc(100% / var(--n));
             &:empty::before {
               content: attr(data-order);
               display: grid;
@@ -220,7 +220,7 @@ export const ScreenScroller = (props: {
               place-items: center;
               font-family: sans-serif;
               color: white;
-              font-size: 50vw;
+              font-size: 5rem;
             }
           }
         `,

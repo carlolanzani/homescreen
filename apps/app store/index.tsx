@@ -6,12 +6,18 @@ import { Nav, Left, Back, Center, Right } from "./components/nav";
 import { Icon } from "../../elements/Icon";
 
 const links = [
-  { to: "/", icon: "home", label: "Home" },
+  { to: "/", icon: "home", label: "Today" },
   { to: "/games", icon: "heart", label: "Games" },
-  { to: "/posts", icon: "globe", label: "Post" },
+  { to: "/games", icon: "heart", label: "Apps" },
+  { to: "/posts", icon: "globe", label: "Arcade" },
+  { to: "/posts", icon: "search", label: "Search" },
 ];
 
 export default () => {
+  return <Games />;
+};
+
+const Games = () => {
   return (
     <Screen gutter="5" gap="5" class="overflow-y-scroll bg-[#0e0e0e]">
       <Header class="sticky top-0 bg-black/80 text-blue-500">
@@ -136,7 +142,7 @@ export default () => {
           </div>
         </List>
       </Body>
-      <Footer class="fixed bottom-0 w-full p-2 pb-9 row aic jcsa gap-2 text-(xs blue-500) bg-black/20 backdrop-blur-xl">
+      <Footer class="fixed bottom-0 w-full p-2 pb-9 row aic jcsa text-(xs blue-500) bg-black/20 backdrop-blur-xl">
         {links.map((link) => (
           <Button x={{ type: "a", ...link }} />
         ))}
