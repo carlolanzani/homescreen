@@ -22,6 +22,36 @@ export default () => {
             alt=""
           />
         </div>
+        <div class="shadow-lg rounded-3xl">
+          <img
+            src="/images/disney-tile.png"
+            class="w-full pointer-events-none"
+          />
+        </div>
+        <div class="shadow-lg rounded-3xl">
+          <img src="/images/212-tile.png" class="w-full pointer-events-none" />
+        </div>
+        <div>
+          <hr class="border-(t neutral-800) my-2" />
+          <h2 class="flex-1 text-(xl neutral-200) font-semibold">
+            Black Voices and Creators
+          </h2>
+          <p class="text-neutral-500">
+            Apps and games from the black community
+          </p>
+        </div>
+        <div class="shadow-lg rounded-3xl">
+          <img
+            src="/images/barbie-tile.png"
+            class="w-full pointer-events-none"
+          />
+        </div>
+        <div class="shadow-lg rounded-3xl">
+          <img
+            src="/images/storia-tile.png"
+            class="w-full pointer-events-none"
+          />
+        </div>
       </Main>
     </Screen>
   );
