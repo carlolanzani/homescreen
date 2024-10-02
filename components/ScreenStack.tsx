@@ -28,7 +28,7 @@ export const ScreenStack = (props: {
             key={screen.id}
             class={cx(
               `relative z-[${screen.order}]`,
-              !focus && "pointer-events-none"
+              !focus && "pointer-events-none hidden"
             )}
           >
             <Lazy key={screen.id} mod={screen.mod} />
