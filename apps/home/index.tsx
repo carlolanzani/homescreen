@@ -43,12 +43,6 @@ export default () => {
           <div class="col gap-4 pt-4">
             <div class="shadow-lg rounded-3xl">
               <img
-                src={`https://loremflickr.com/640/330/nature`}
-                class="rounded-3xl pointer-events-none"
-              />
-            </div>
-            <div class="shadow-lg rounded-3xl">
-              <img
                 src="/images/weather-app.png"
                 class="w-full pointer-events-none"
               />
