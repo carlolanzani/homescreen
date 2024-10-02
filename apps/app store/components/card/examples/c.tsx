@@ -2,6 +2,7 @@ import { css, cx } from "@twind/core";
 import { Card, Header, Body, Footer } from "..";
 import { Button } from "../../button";
 import { useState } from "preact/hooks";
+import { randomGameNames } from "./a";
 
 export default (props: { type: "c" }) => {
   const [img] = useState(Math.random());
@@ -14,7 +15,7 @@ export default (props: { type: "c" }) => {
       </Header>
       <Body class="relative rounded-t-lg overflow-hidden">
         <img
-          class="flex-none w-full aspect-[844/525] object-cover"
+          class="flex-none w-full aspect-[844/525] object-cover blur-xl"
           src={`https://loremflickr.com/600/600/fantasy?random=${img}`}
         />
         {/* <img
@@ -53,7 +54,7 @@ export default (props: { type: "c" }) => {
           />
           <div class="col jcc gap-2 w-full h-full truncate">
             <span class="text-(sm neutral-100) font-medium truncate leading-[1cap]">
-              RESIDENT EVIL 7 biohazard
+              {randomGameNames[(Math.random() * randomGameNames.length) << 0]}
             </span>
             <span class="text-(xs neutral-300) font-light leading-[1cap]">
               Urban Fantasy ARPG

@@ -4,6 +4,7 @@ import { Screen } from "../../../components/Screen";
 import { Button } from "../components/button";
 import { List } from "../components/list";
 import { Card } from "../components/card";
+import { randomGameCategories } from "../components/card/examples/e";
 
 export default () => {
   return (
@@ -24,11 +25,51 @@ export default () => {
           />
         </div>
         <List class="row gap-2 overflow-x-scroll">
-          <Button x={{ type: "b" }} />
-          <Button x={{ type: "b" }} />
-          <Button x={{ type: "b" }} />
-          <Button x={{ type: "b" }} />
-          <Button x={{ type: "b" }} />
+          <Button
+            x={{
+              type: "b",
+              label:
+                randomGameCategories[
+                  Math.floor(Math.random() * randomGameCategories.length)
+                ],
+            }}
+          />
+          <Button
+            x={{
+              type: "b",
+              label:
+                randomGameCategories[
+                  Math.floor(Math.random() * randomGameCategories.length)
+                ],
+            }}
+          />
+          <Button
+            x={{
+              type: "b",
+              label:
+                randomGameCategories[
+                  Math.floor(Math.random() * randomGameCategories.length)
+                ],
+            }}
+          />
+          <Button
+            x={{
+              type: "b",
+              label:
+                randomGameCategories[
+                  Math.floor(Math.random() * randomGameCategories.length)
+                ],
+            }}
+          />
+          <Button
+            x={{
+              type: "b",
+              label:
+                randomGameCategories[
+                  Math.floor(Math.random() * randomGameCategories.length)
+                ],
+            }}
+          />
         </List>
         <List class="row gap-2.5 overflow-x-scroll snap-(x mandatory) children:(flex-none snap-center w-full min-w-full)">
           <Card x={{ type: "a" }} />
