@@ -39,7 +39,34 @@ export default () => {
         onProgress={(x) => (progress.value = x)}
         class={blurOverlay}
       >
-        <Screen class="bg-transparent z-30"></Screen>
+        <Screen class="bg-transparent z-30 p-4 pt-safe-t overflow-y-scroll pb-safe-b">
+          <div class="col gap-4 pt-4">
+            <div>
+              <img
+                src={`https://loremflickr.com/640/330/nature`}
+                class="rounded-3xl pointer-events-none"
+              />
+            </div>
+            <div>
+              <img
+                src="/images/weather-app.png"
+                class="w-full pointer-events-none"
+              />
+            </div>
+            <div>
+              <img
+                src="/images/spotify.png"
+                class="w-full pointer-events-none"
+              />
+            </div>
+            <div>
+              <img
+                src="/images/battery-widget.png"
+                class="w-full pointer-events-none"
+              />
+            </div>
+          </div>
+        </Screen>
         {pages.map(AppGrid(progress))}
         <AppLibrary />
       </ScreenScroller>

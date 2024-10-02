@@ -48,7 +48,7 @@ export default (props: { type: "c" }) => {
         <div class="flex-1 row aic gap-3">
           <img
             class="flex-none w-10 h-10 rounded-lg"
-            // src={`https://loremflickr.com/100/100/fantasy?random=${Math.random()}`}
+            src={`https://loremflickr.com/600/600/fantasy?random=${img + 10}`}
             alt=""
           />
           <div class="col jcc gap-2 w-full h-full truncate">
