@@ -23,7 +23,7 @@ export default () => {
         <div class="grid grid-cols-5 auto-rows-min gap-0.5">
           {Array.from({ length: 54 }).map((x, i) => (
             <img
-              src={`https://source.unsplash.com/random/?${i}`}
+              src={`https://loremflickr.com/600/400/nature?random=${i}`}
               alt="Camera"
               class="w-full aspect-square object-cover"
             />

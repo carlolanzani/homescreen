@@ -18,7 +18,7 @@ export default () => {
             {Array.from({ length: 4 }).map((x, i) => (
               <div>
                 <img
-                  src={`https://source.unsplash.com/random/?${i}`}
+                  src={`https://loremflickr.com/600/400/nature?random=${i}`}
                   alt="Camera"
                   class="relative w-full aspect-[21/27] object-cover rounded-2xl"
                 />
@@ -26,6 +26,7 @@ export default () => {
                   <Icon id="heart" size="8" />
                   <Icon id="ellipsis-circle-outline" size="8" />
                 </div>
+                <div class="absolute inset-0 bg-gradient-to-tr from-neutral-900"></div>
                 <div class="absolute w-full h-full flex px-8 pb-6 pt-16">
                   <div class="mt-auto">
                     <h2 class="font-(mono bold) text-2xl">On This Day</h2>
@@ -48,7 +49,9 @@ export default () => {
             {Array.from({ length: 4 }).map((x, i) => (
               <div class="col gap-1">
                 <img
-                  src={`https://source.unsplash.com/random/?${i + 10}`}
+                  src={`https://loremflickr.com/600/400/nature?random=${
+                    i + 10
+                  }`}
                   alt="Camera"
                   class="relative w-full aspect-square object-cover rounded-lg"
                 />
@@ -71,13 +74,17 @@ export default () => {
             {Array.from({ length: 4 }).map((x, i) => (
               <div class="col aifs jcfs gap-2">
                 <img
-                  src={`https://source.unsplash.com/random?${i + 20}`}
+                  src={`https://loremflickr.com/600/400/nature?random=${
+                    i + 20
+                  }`}
                   alt="Camera"
                   class="w-full aspect-square object-cover rounded-2xl"
                 />
                 <div class="row aic gap-1 bg-neutral-900 rounded-3xl p-1">
                   <img
-                    src={`https://source.unsplash.com/random?${i + 30}`}
+                    src={`https://loremflickr.com/600/400/nature?random=${
+                      i + 30
+                    }`}
                     alt="Camera"
                     class="flex-none w-4 aspect-square object-cover rounded-full"
                   />
