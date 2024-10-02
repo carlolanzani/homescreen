@@ -39,7 +39,7 @@ export default () => {
         onProgress={(x) => (progress.value = x)}
         class={blurOverlay}
       >
-        <Screen class="bg-transparent z-30 p-4 pt-safe-t overflow-y-scroll pb-safe-b">
+        <Screen class="bg-transparent z-30 p-4 pt-safe-t !overflow-y-scroll pb-safe-b">
           <div class="col gap-4 pt-4">
             <div class="shadow-lg rounded-3xl">
               <img
