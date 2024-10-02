@@ -41,25 +41,25 @@ export default () => {
       >
         <Screen class="bg-transparent z-30 p-4 pt-safe-t overflow-y-scroll pb-safe-b">
           <div class="col gap-4 pt-4">
-            <div>
+            <div class="shadow-lg rounded-3xl">
               <img
                 src={`https://loremflickr.com/640/330/nature`}
                 class="rounded-3xl pointer-events-none"
               />
             </div>
-            <div>
+            <div class="shadow-lg rounded-3xl">
               <img
                 src="/images/weather-app.png"
                 class="w-full pointer-events-none"
               />
             </div>
-            <div>
+            <div class="shadow-lg rounded-3xl">
               <img
                 src="/images/spotify.png"
                 class="w-full pointer-events-none"
               />
             </div>
-            <div>
+            <div class="shadow-lg rounded-3xl">
               <img
                 src="/images/battery-widget.png"
                 class="w-full pointer-events-none"
