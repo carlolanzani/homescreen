@@ -9,7 +9,7 @@ export default () => {
   return (
     <Screen class="!bg-[#020202]">
       <ScreenStack screens={state.$screens!} />
-      <Footer class="bg-inherit">
+      <Footer class="bg-neutral-900/80">
         <Nav class="!px-0 pb-6">
           <Center class="children:(col aic text-[10px])">
             <ScreenTabs screens={state.$screens!} accent="yellow-600" />

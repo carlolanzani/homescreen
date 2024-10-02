@@ -10,7 +10,7 @@ export const Main = (props: {
   return (
     <div
       class={cx(
-        "relative w-full h-screen overflow-y-scroll overflow-x-clip",
+        "relative w-full min-h-screen overflow-y-scroll overflow-x-clip",
         "col",
         "text-neutral-100",
         props.class

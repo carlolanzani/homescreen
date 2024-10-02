@@ -5,8 +5,8 @@ import { Icon } from "../../elements/Icon";
 export default () => {
   return (
     <Screen class="!bg-[#020202]">
-      <Main>
-        <div class="h-[38%] col p-4 pb-0">
+      <Main class="pb-8">
+        <div class="flex-1 col p-4 pb-0">
           <span class="mt-auto ml-auto text-[92px] font-extralight tabular-nums tracking-tighter translate-y-[4.8%]">
             0.65432
           </span>

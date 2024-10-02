@@ -11,7 +11,7 @@ export default () => {
           <h1 class="text-8xl font-thin">01:22.96</h1>
         </div>
         <div class="row aic jcsb">
-          <button class="bg-neutral-600 w-20 h-20 rounded-full">Reset</button>
+          <button class="bg-neutral-700 w-20 h-20 rounded-full">Reset</button>
           <div class="row gap-2">
             <div class="w-2 h-2 rounded-full bg-white"></div>
             <div class="w-2 h-2 rounded-full bg-white/40"></div>

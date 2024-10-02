@@ -1,3 +1,4 @@
+import { useState } from "preact/hooks";
 import { Header } from "../../../components/Header";
 import { Main } from "../../../components/Main";
 import { Nav, Left, Right } from "../../../components/Nav";
@@ -7,18 +8,18 @@ import { Switch } from "../../../elements/Switch";
 
 export default () => {
   return (
-    <Screen class="!bg-[#020202]">
-      <Header class="!bg-inherit !border-none">
-        <Nav class="text-yellow-600 pb-0 px-4 pr-2">
+    <Screen gutter="4" class="!bg-[#020202] overflow-y-scroll">
+      <Header class="!bg-inherit !border-none sticky top-0">
+        <Nav class="text-yellow-600 pb-0">
           <Left>
             <button class="text-base">Edit</button>
           </Left>
-          <Right>
+          <Right class="-mr-2">
             <Icon id="plus" size="8" />
           </Right>
         </Nav>
       </Header>
-      <Main class="pt-header pb-footer px-4 overflow-y-scroll">
+      <Main class="pb-footer">
         <h1 class="text-4xl font-bold pb-4 border-(b white/10)">Alarms</h1>
         <div class="col mt-1">
           <div class="row aic pb-1 border(b white/10) text-white">
@@ -47,24 +48,24 @@ export default () => {
               "10:00",
               "11:00",
             ].map((alarm) => {
-              const enabled = Math.random() > 0.5;
-              return (
-                <div class="row aic gap-2 py-2 pb-3 border-(b white/10)">
-                  <div
-                    class={`flex-1 col text-${
-                      enabled ? "neutral-100" : "neutral-500"
-                    }`}
-                  >
-                    <h2 class="text-6xl font-extralight">{alarm}</h2>
-                    <p class="text-sm font-light">Alarm, Wed and Fri</p>
-                  </div>
-                  <Switch checked={enabled} />
-                </div>
-              );
+              return <Alarm alarm={alarm} />;
             })}
           </div>
         </div>
       </Main>
     </Screen>
+  );
+};
+
+const Alarm = (props: { alarm: string }) => {
+  const [enabled, setEnabled] = useState(Math.random() > 0.5);
+  return (
+    <div class="row aic gap-2 py-2 pb-3 border-(b white/10)">
+      <div class={`flex-1 col text-${enabled ? "neutral-100" : "neutral-500"}`}>
+        <h2 class="text-6xl font-extralight">{props.alarm}</h2>
+        <p class="text-sm font-light">Alarm, Wed and Fri</p>
+      </div>
+      <Switch checked={enabled} onChange={setEnabled} />
+    </div>
   );
 };
