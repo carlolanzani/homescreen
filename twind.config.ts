@@ -72,24 +72,11 @@ injectGlobal`
     -webkit-tap-highlight-color: transparent;
   }
 
-  body {
-    height: 100svh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #222;
-  }
+  body {}
 
   * {
     cursor: url("/images/cursor.png") 20 20, auto !important;
     user-select: none;
-  }
-
-  @media all and (display-mode: standalone) {
-    body {
-      height: 100vh;
-    }
   }
 
   ::-webkit-scrollbar {

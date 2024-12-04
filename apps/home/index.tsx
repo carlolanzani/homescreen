@@ -4,7 +4,7 @@ import { Screen } from "../../components/Screen";
 import { state } from "./state";
 import { ScreenScroller } from "../../components/ScreenScroller";
 import { useSignal } from "@preact/signals";
-import { css, cx } from "@twind/core";
+import { css } from "@twind/core";
 import { AppGrid } from "./screens/AppGrid";
 import { AppLibrary } from "./screens/AppLibrary";
 import { AppDock } from "./components/AppDock";

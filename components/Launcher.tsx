@@ -159,7 +159,7 @@ export const Launcher = (props: {
                 pointer-events: none !important;
               }
 
-              &:has(:popover-open) > :first-child,
+              &:has(:popover-open:not([data-overlay])) > :first-child,
               &:has(:popover-open) > #placeholder-clone,
               &:has(.peek) > :first-child,
               &:has(.peek) > #placeholder-clone {
