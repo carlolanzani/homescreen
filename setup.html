@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Setup - Magic Trick</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .setup-container {
+            max-width: 400px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #4ecdc4;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 0.9em;
+            color: #a8dadc;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1em;
+            color: #a8dadc;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.1em;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        button {
+            width: 100%;
+            font-size: 1.2em;
+            padding: 18px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-box {
+            background: rgba(168, 218, 220, 0.1);
+            border-left: 4px solid #a8dadc;
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .emoji {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="setup-container">
+        <div class="emoji">📱✨</div>
+        <h1>Magic Trick Setup</h1>
+        <p class="subtitle">Dispositivo Ricevitore</p>
+
+        <form id="setupForm">
+            <div class="input-group">
+                <label>Codice Stanza:</label>
+                <input 
+                    type="text" 
+                    id="roomCode" 
+                    placeholder="Es: MAGIA2024" 
+                    value="MAGIA2024"
+                    required
+                    autocomplete="off"
+                >
+            </div>
+
+            <button type="submit">
+                🚀 Avvia Homescreen
+            </button>
+        </form>
+
+        <div class="info-box">
+            <strong>📝 Istruzioni:</strong><br>
+            1. Inserisci il codice stanza condiviso dal mago<br>
+            2. Clicca "Avvia Homescreen"<br>
+            3. Vedrai un iPhone funzionante<br>
+            4. L'immagine horror apparirà come sfondo quando il mago la genera!
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('setupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const roomCode = document.getElementById('roomCode').value.trim().toUpperCase();
+            
+            if (!roomCode) {
+                alert('Inserisci un codice stanza!');
+                return;
+            }
+
+            // Reindirizza a index.html con il codice stanza come parametro
+            window.location.href = `index.html?room=${encodeURIComponent(roomCode)}`;
+        });
+    </script>
+</body>
+</html>

@@ -28,28 +28,38 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script>
-    // Inizializza Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyAmJbDTxWU9WL-5twJ839S8EZal0mOrpeQ",
-      databaseURL: "https://magictrick-bbe72-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "magictrick-bbe72"
-    };
-    firebase.initializeApp(firebaseConfig);
+    // Leggi il codice stanza dall'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomCode = urlParams.get('room');
     
-    // Listener per immagini
-    const roomCode = "MAGIA2024";
-    firebase.database().ref(`rooms/${roomCode}/trigger`).on('value', (snap) => {
-      if (snap.val()) {
-        firebase.database().ref(`rooms/${roomCode}/image`).once('value').then((imgSnap) => {
-          const img = imgSnap.val();
-          if (img) {
-            document.body.style.backgroundImage = `url(${img})`;
-            document.body.style.backgroundSize = 'cover';
-            document.body.style.backgroundPosition = 'center';
-          }
-        });
-      }
-    });
+    // Se non c'è codice stanza, reindirizza a setup
+    if (!roomCode) {
+      window.location.href = 'setup.html';
+    } else {
+      // Inizializza Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyAmJbDTxWU9WL-5twJ839S8EZal0mOrpeQ",
+        databaseURL: "https://magictrick-bbe72-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "magictrick-bbe72"
+      };
+      firebase.initializeApp(firebaseConfig);
+      
+      // Listener per immagini
+      firebase.database().ref(`rooms/${roomCode}/trigger`).on('value', (snap) => {
+        if (snap.val()) {
+          firebase.database().ref(`rooms/${roomCode}/image`).once('value').then((imgSnap) => {
+            const img = imgSnap.val();
+            if (img) {
+              document.body.style.backgroundImage = `url(${img})`;
+              document.body.style.backgroundSize = 'cover';
+              document.body.style.backgroundPosition = 'center';
+            }
+          });
+        }
+      });
+      
+      console.log('🎯 Receiver connected to room:', roomCode);
+    }
   </script>
   <body></body>
   <script type="module">
