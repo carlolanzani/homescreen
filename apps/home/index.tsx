@@ -1,11 +1,11 @@
-import { useMemo } from "preact/hooks";
+import { useMemo, useState, useEffect } from "preact/hooks";
 import { Footer } from "../../components/Footer";
 import { Screen } from "../../components/Screen";
 import { StatusBar } from "../../components/StatusBar";
 import { state } from "./state";
 import { ScreenScroller } from "../../components/ScreenScroller";
 import { useSignal } from "@preact/signals";
-import { css } from "@twind/core";
+import { css, cx } from "@twind/core";
 import { AppGrid } from "./screens/AppGrid";
 import { AppLibrary } from "./screens/AppLibrary";
 import { AppDock } from "./components/AppDock";
@@ -13,6 +13,12 @@ import { PageIndicator } from "./components/PageIndicator";
 
 export default () => {
   const installedApps = state.$installedApps!.value;
+  
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  
+  useEffect(() => {
+    setIsFullscreen(window.matchMedia('(display-mode: fullscreen)').matches);
+  }, []);
 
   const pages = useMemo(() => {
     const numberOfPages = Math.max(...installedApps.map((x) => x.page)) + 1;
@@ -31,13 +37,16 @@ export default () => {
 
   return (
     <Screen>
-      <StatusBar />
+      {isFullscreen && <StatusBar />}
       <ScreenScroller
         startAt={startAt}
         onProgress={(x) => (progress.value = x)}
         class={blurOverlay}
       >
-        <Screen class="bg-transparent z-30 p-4 pt-safe-t pb-safe-b">
+        <Screen class={cx(
+          "bg-transparent z-30 p-4 pb-safe-b",
+          isFullscreen ? "pt-16" : "pt-safe-t"
+        )}>
           <div class="col gap-4 pt-4">
             <div class="shadow-lg rounded-3xl">
               <img
