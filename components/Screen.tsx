@@ -13,7 +13,6 @@ export const Screen = (props: {
       {...rest}
       class={cx(
         "fixed inset-0 w-screen h-screen",
-        apply`bg-neutral-900`,
         props.class,
         props.gutter &&
           css`
