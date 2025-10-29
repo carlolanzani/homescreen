@@ -30,10 +30,6 @@ export default () => {
 
   return (
     <Screen>
-      <div class="absolute inset-0 w-full h-full">
-        <img src="/images/image.jpeg" class="w-full h-full" />
-        <div class="absolute inset-0 w-full h-full backdrop-blur-lg" />
-      </div>
       <ScreenScroller
         startAt={startAt}
         onProgress={(x) => (progress.value = x)}

@@ -17,7 +17,11 @@ const visible = css`
 `;
 
 export const Device = (props: { children: Children }) => {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
+                   window.innerWidth <= 768;
+  
   const [enabled] = useState<boolean>(
+    !isMobile &&
     !(window.navigator as NavigatorStandalone).standalone &&
       window.self === window.top
   );
