@@ -46,6 +46,17 @@
       
       // Funzione per applicare lo sfondo all'elemento corretto
       function applyBackground(imageUrl) {
+        // Detecta se siamo dentro iframe o standalone
+        const isInIframe = window.self !== window.top;
+        const isStandalone = window.navigator.standalone;
+        
+        // Applica SOLO se siamo dentro iframe o standalone
+        // NON applicare se siamo il wrapper esterno
+        if (!isInIframe && !isStandalone) {
+          console.log('⏭️ Skipping background (wrapper)');
+          return;
+        }
+        
         // Applica al body corrente
         document.body.style.backgroundImage = `url(${imageUrl})`;
         document.body.style.backgroundSize = 'cover';
@@ -63,7 +74,7 @@
           }
         }, 500);
         
-        console.log('✨ Background image applied!');
+        console.log('✨ Background applied!', isInIframe ? '(iframe)' : '(standalone)');
       }
       
       // Listener per immagini
