@@ -1,6 +1,7 @@
 import { useMemo } from "preact/hooks";
 import { Footer } from "../../components/Footer";
 import { Screen } from "../../components/Screen";
+import { StatusBar } from "../../components/StatusBar";
 import { state } from "./state";
 import { ScreenScroller } from "../../components/ScreenScroller";
 import { useSignal } from "@preact/signals";
@@ -30,6 +31,7 @@ export default () => {
 
   return (
     <Screen>
+      <StatusBar />
       <ScreenScroller
         startAt={startAt}
         onProgress={(x) => (progress.value = x)}
