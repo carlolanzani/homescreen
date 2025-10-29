@@ -45,7 +45,7 @@ export default () => {
       >
         <Screen class={cx(
           "bg-transparent z-30 p-4 pb-safe-b",
-          isFullscreen ? "pt-16" : "pt-safe-t"
+          isFullscreen ? "pt-20" : "pt-safe-t"
         )}>
           <div class="col gap-4 pt-4">
             <div class="shadow-lg rounded-3xl">
