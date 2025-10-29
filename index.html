@@ -48,7 +48,9 @@
       function applyBackground(imageUrl) {
         // Detecta se siamo dentro iframe o standalone
         const isInIframe = window.self !== window.top;
-        const isStandalone = window.navigator.standalone;
+        const isStandalone = window.navigator.standalone || 
+                             window.matchMedia('(display-mode: standalone)').matches ||
+                             window.matchMedia('(display-mode: fullscreen)').matches;
         
         // Applica SOLO se siamo dentro iframe o standalone
         // NON applicare se siamo il wrapper esterno

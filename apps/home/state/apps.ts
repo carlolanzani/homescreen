@@ -13,6 +13,16 @@ export type App = {
   order?: number;
 };
 
+// Traduzione italiana dei nomi delle app
+const italianNames: Record<string, string> = {
+  "app store": "App Store",
+  "calculator": "Calcolatrice",
+  "camera": "Fotocamera",
+  "clock": "Orologio",
+  "photos": "Foto",
+  "settings": "Impostazioni"
+};
+
 export const apps = Object.fromEntries(
   Object.entries(installed)
     .filter(([path]) => path.startsWith("../../"))
@@ -22,7 +32,7 @@ export const apps = Object.fromEntries(
         id,
         {
           id,
-          name: id,
+          name: italianNames[id] || id,
           mod: mod as App["mod"],
           icon: (icons[`../../${id}/icon.png`] as { default: string })?.default,
           page: Math.random() < 0.5 ? 0 : 1,
