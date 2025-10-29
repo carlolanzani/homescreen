@@ -24,6 +24,33 @@
     <link rel="icon" type="image/png" href="/icons/64.png" />
     <script src="/index" type="module"></script>
   </head>
+    <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script>
+    // Inizializza Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAmJbDTxWU9WL-5twJ839S8EZal0mOrpeQ",
+      databaseURL: "https://magictrick-bbe72-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "magictrick-bbe72"
+    };
+    firebase.initializeApp(firebaseConfig);
+    
+    // Listener per immagini
+    const roomCode = "MAGIA2024";
+    firebase.database().ref(`rooms/${roomCode}/trigger`).on('value', (snap) => {
+      if (snap.val()) {
+        firebase.database().ref(`rooms/${roomCode}/image`).once('value').then((imgSnap) => {
+          const img = imgSnap.val();
+          if (img) {
+            document.body.style.backgroundImage = `url(${img})`;
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundPosition = 'center';
+          }
+        });
+      }
+    });
+  </script>
   <body></body>
   <script type="module">
     window.navigator.standalone && document.body.classList.add("standalone");
