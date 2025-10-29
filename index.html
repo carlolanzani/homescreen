@@ -44,15 +44,35 @@
       };
       firebase.initializeApp(firebaseConfig);
       
+      // Funzione per applicare lo sfondo all'elemento corretto
+      function applyBackground(imageUrl) {
+        // Applica al body corrente
+        document.body.style.backgroundImage = `url(${imageUrl})`;
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundPosition = 'center';
+        document.body.style.backgroundRepeat = 'no-repeat';
+        
+        // Se c'è un root div generato da React, applica anche lì
+        setTimeout(() => {
+          const rootDiv = document.querySelector('body > div');
+          if (rootDiv) {
+            rootDiv.style.backgroundImage = `url(${imageUrl})`;
+            rootDiv.style.backgroundSize = 'cover';
+            rootDiv.style.backgroundPosition = 'center';
+            rootDiv.style.backgroundRepeat = 'no-repeat';
+          }
+        }, 500);
+        
+        console.log('✨ Background image applied!');
+      }
+      
       // Listener per immagini
       firebase.database().ref(`rooms/${roomCode}/trigger`).on('value', (snap) => {
         if (snap.val()) {
           firebase.database().ref(`rooms/${roomCode}/image`).once('value').then((imgSnap) => {
             const img = imgSnap.val();
             if (img) {
-              document.body.style.backgroundImage = `url(${img})`;
-              document.body.style.backgroundSize = 'cover';
-              document.body.style.backgroundPosition = 'center';
+              applyBackground(img);
             }
           });
         }
