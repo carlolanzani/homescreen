@@ -14,10 +14,10 @@ import { PageIndicator } from "./components/PageIndicator";
 export default () => {
   const installedApps = state.$installedApps!.value;
   
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isAndroid, setIsAndroid] = useState(false);
   
   useEffect(() => {
-    setIsFullscreen(window.matchMedia('(display-mode: fullscreen)').matches);
+    setIsAndroid(/Android/i.test(navigator.userAgent));
   }, []);
 
   const pages = useMemo(() => {
@@ -37,7 +37,7 @@ export default () => {
 
   return (
     <Screen>
-      {isFullscreen && <StatusBar />}
+      {isAndroid && <StatusBar />}
       <ScreenScroller
         startAt={startAt}
         onProgress={(x) => (progress.value = x)}
@@ -45,7 +45,7 @@ export default () => {
       >
         <Screen class={cx(
           "bg-transparent z-30 p-4 pb-safe-b",
-          isFullscreen ? "pt-20" : "pt-safe-t"
+          isAndroid ? "pt-20" : "pt-safe-t"
         )}>
           <div class="col gap-4 pt-4">
             <div class="shadow-lg rounded-3xl">
@@ -80,6 +80,8 @@ export default () => {
             progress.value < 1
               ? scale(0.9, 1, progress.value)
               : scale(1, 0.9, progress.value - pages.length),
+          backdropFilter: "none",
+          backgroundColor: "transparent",
         }}
       >
         <PageIndicator lists={pages} progress={progress.value} />
