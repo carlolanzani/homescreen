@@ -28,7 +28,7 @@ export const Footer = (props: {
       ref={ref}
       class={cx(
         "absolute bottom-0",
-        "w-full col aic pb-safe-b",
+        "w-full col aic pb-4",
         !props.transparent && "bg-neutral-900/50 backdrop-blur-lg",
         !props.transparent && "border-t border-white/5",
         "text-neutral-400",

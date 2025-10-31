@@ -23,15 +23,6 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/180.png" />
     <link rel="icon" type="image/png" href="/icons/64.png" />
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
-        min-height: -webkit-fill-available;
-        background-attachment: fixed;
-      }
-    </style>
     <script src="/index" type="module"></script>
   </head>
     <!-- Firebase SDK -->
@@ -74,12 +65,14 @@
         document.documentElement.style.backgroundSize = 'cover';
         document.documentElement.style.backgroundPosition = 'center';
         document.documentElement.style.backgroundRepeat = 'no-repeat';
+        document.documentElement.style.backgroundAttachment = 'fixed';
         
         // Applica al body corrente
         document.body.style.backgroundImage = `url(${imageUrl})`;
         document.body.style.backgroundSize = 'cover';
         document.body.style.backgroundPosition = 'center';
         document.body.style.backgroundRepeat = 'no-repeat';
+        document.body.style.backgroundAttachment = 'fixed';
         
         // Se c'è un root div generato da React, applica anche lì
         setTimeout(() => {
@@ -112,7 +105,9 @@
   </script>
   <body></body>
   <script type="module">
+    // Aggiungi classe per dispositivi standalone
     window.navigator.standalone && document.body.classList.add("standalone");
+    
     // If we are in an iframe then we need to set the safe area insets
     // as the browser will not know about the overlayed chrome
     if (window.self !== window.top) {
